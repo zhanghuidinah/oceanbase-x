@@ -1,52 +1,34 @@
-<div align="center">
-
 # OceanBase X
 
-**Bringing the Database into AI Workflows**
+Demos showing how OceanBase integrates with AI frameworks like LangChain, Dify, and RAGFlow.
 
-[中文](https://zhanghuidinah.github.io/oceanbase-x/) · [English](https://zhanghuidinah.github.io/oceanbase-x/index_en.html)
+[Live Demo (CN)](https://zhanghuidinah.github.io/oceanbase-x/) · [Live Demo (EN)](https://zhanghuidinah.github.io/oceanbase-x/index_en.html)
 
-</div>
+## Contents
 
----
+| Directory | Description |
+|-----------|-------------|
+| `ob-langchain/` | OceanBase + LangChain: VectorStore, hybrid search, RAG pipeline |
+| `ob-dify/` | OceanBase + Dify: one-click deploy, knowledge base, vector store plugin |
+| `ob-ragflow/` | OceanBase + RAGFlow/PowerRAG: multi-modal retrieval, knowledge management |
 
-OceanBase X is a presentation suite that shows how OceanBase integrates with leading AI frameworks — from vector retrieval to knowledge governance, from one-click deployment to production-grade RAG pipelines.
-
-## Why OceanBase X?
-
-AI workloads demand more from databases than traditional CRUD: vector search, hybrid retrieval, and knowledge management are now table stakes. OceanBase X answers one question through three end-to-end demos —
-
-> **What can OceanBase do in AI scenarios?**
-
-| Scenario | Directory | Highlights |
-|----------|-----------|------------|
-| LangChain ecosystem | `ob-langchain/` | VectorStore, hybrid search, pyobvector SDK, RAG pipeline |
-| Dify platform integration | `ob-dify/` | docker-compose one-click deploy, knowledge base, vector store plugin |
-| RAGFlow / PowerRAG | `ob-ragflow/` | Multi-modal retrieval, knowledge base governance |
-
-## Viewing
-
-**Online** (recommended)
-
-- CN: https://zhanghuidinah.github.io/oceanbase-x/
-- EN: https://zhanghuidinah.github.io/oceanbase-x/index_en.html
-
-**Locally**
+## Run Locally
 
 ```bash
 python -m http.server 8000
-# then open http://localhost:8000/index_zh.html
 ```
 
-You can also open any subdirectory's `index.html` (CN) or `index_en.html` (EN) directly for an individual deck.
+Then open http://localhost:8000
 
-## Design language
+You can also open `index.html` (CN) or `index_en.html` (EN) directly in each subdirectory.
 
-- **Engine**: Reveal.js 5 + Tailwind CSS + Highlight.js
-- **Brand colors**: `#1a1aff` OceanBase Blue / `#00d4aa` OceanBase Teal
-- **Font stack**: Inter → Noto Sans SC → JetBrains Mono
-- **Theme**: `styles/ob-theme.css`
+## Tech Stack
 
-## Contributing
+- Reveal.js 5
+- Tailwind CSS
+- Highlight.js
+- Theme: `styles/ob-theme.css`
 
-Copy any deck directory as a starting point and adjust theme variables in `styles/ob-theme.css`. PRs welcome.
+## License
+
+MIT
