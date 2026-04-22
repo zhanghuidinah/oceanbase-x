@@ -4,7 +4,7 @@
 
 **Bringing the Database into AI Workflows**
 
-[中文](https://oceanbase.github.io/ob-x/) · [English](https://oceanbase.github.io/ob-x/index_en.html)
+[中文](https://zhanghuidinah.github.io/oceanbase-x/) · [English](https://zhanghuidinah.github.io/oceanbase-x/index_en.html)
 
 </div>
 
@@ -28,8 +28,8 @@ AI workloads demand more from databases than traditional CRUD: vector search, hy
 
 **Online** (recommended)
 
-- CN: https://oceanbase.github.io/ob-x/
-- EN: https://oceanbase.github.io/ob-x/index_en.html
+- CN: https://zhanghuidinah.github.io/oceanbase-x/
+- EN: https://zhanghuidinah.github.io/oceanbase-x/index_en.html
 
 **Locally**
 

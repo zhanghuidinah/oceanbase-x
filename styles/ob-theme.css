@@ -121,7 +121,13 @@
   color: inherit;
 }
 .nordic-logo img { height: 24px; display: block; }
-.nordic-logo-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; color: var(--ink); letter-spacing: -0.02em; }
+.nordic-logo-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink) !important;
+  letter-spacing: -0.02em;
+}
 .nordic-logo-text {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
@@ -246,6 +252,18 @@
 .reveal section[data-background-color="#1a1aff"] .pill {
   color: #fff;
   background: rgba(255,255,255,0.18);
+}
+
+/* Logo on light background slides */
+.reveal section[data-background-color="#fafafa"] .nordic-logo-name,
+.reveal section[data-background-color="#ffffff"] .nordic-logo-name,
+.reveal section:not([data-background-color="#1a1aff"]) .nordic-logo-name {
+  color: var(--ink) !important;
+}
+
+/* Logo on dark brand slide */
+.reveal section[data-background-color="#1a1aff"] .nordic-logo-name {
+  color: #fff !important;
 }
 
 /* Feature grid */
