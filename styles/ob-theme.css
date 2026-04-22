@@ -121,7 +121,7 @@
   color: inherit;
 }
 .nordic-logo img { height: 24px; display: block; }
-.nordic-logo-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; color: #fff; letter-spacing: -0.02em; }
+.nordic-logo-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; color: var(--ink); letter-spacing: -0.02em; }
 .nordic-logo-text {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
