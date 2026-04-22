@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OceanBase × Dify — One-Click Vector Store for AI App Platform</title>
+    <title>OceanBase × Dify — 一体化数据库简化 Agentic RAG 部署</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="reveal-theme">
@@ -11,17 +11,17 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../styles/ob-theme.css">
 </head>
 <body>
     <div class="lang-switch">
-        <a href="index.html">中文</a>
+        <a href="index.html">EN</a>
         <span>/</span>
-        <a class="active" href="index_en.html">EN</a>
+        <a class="active" href="index_zh.html">中文</a>
     </div>
-    <a class="nordic-logo" href="../index.html">
+    <a class="nordic-logo" href="../index_zh.html">
         <img src="../assets/logo.png" alt="OceanBase" class="nordic-logo-img">
         <span class="nordic-logo-name">OceanBase</span>
         <span class="nordic-logo-text">OB × Dify</span>
@@ -33,224 +33,224 @@
             <section data-background-color="#fafafa">
                 <div class="slide-hero text-center" style="max-width:860px;">
                     <h1 style="font-size:2.6rem;line-height:1.1;">OceanBase × Dify</h1>
-                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">Unified Database Simplifies Agentic RAG Deployment<br>Dify v1.10.1 + seekdb — From Configuration to AI Apps</p>
+                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">一体化数据库简化 Agentic RAG 部署<br>Dify v1.10.1 + seekdb 从配置到 AI 应用实战</p>
                     <div style="width:48px;height:3px;background:var(--ob-blue);border-radius:2px;margin:2rem 0 1.5rem;"></div>
                     <div class="author-block" style="align-items:center;margin-top:0;">
                         <div class="author-name">OceanBase</div>
                         <div class="author-meta">Developer Relations</div>
                     </div>
                 </div>
-                <aside class="notes">Introduction: Dify v1.10.1 + seekdb unified database simplifies Agentic RAG deployment. One database handles metadata, vectors, and full-text search.</aside>
+                <aside class="notes">开场：引用荀子名言"君子性非异也，善假于物也"，强调借助 Dify v1.10.1 + seekdb 一体化数据库简化 AI 应用开发。</aside>
             </section>
 
             <!-- ══ Slide 2 · Pain Points ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">Pain Points</span></div>
-                <h2 class="slide-title">Traditional Agentic RAG Multi-Component Challenges</h2>
+                <div class="slide-label"><span class="pill">痛点</span></div>
+                <h2 class="slide-title">传统 Agentic RAG 的多组件困境</h2>
                 <div style="margin-top:1.2rem;font-size:0.85rem;color:var(--dim);text-align:center;margin-bottom:1rem;">
-                    Traditional solutions rely on three heterogeneous components — the more complex the system, the heavier the operational burden
+                    传统方案依赖三个异构组件，系统越复杂，运维负担越重
                 </div>
                 <div class="feature-grid" style="margin-top:1.2rem;">
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-database-2-line" style="color:var(--ob-blue);"></i></div>
-                        <h4>Relational Database</h4>
-                        <p>Stores users, app configs, Agent task states, knowledge base metadata — strongly transactional, structured data</p>
+                        <h4>关系型数据库</h4>
+                        <p>存储用户、应用配置、Agent 任务状态、知识库元数据——强事务性、结构化数据</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-brain-line" style="color:var(--ob-teal);"></i></div>
-                        <h4>Vector Database</h4>
-                        <p>Stores high-dimensional vectors from embedded Context Chunks, powering semantic search</p>
+                        <h4>向量数据库</h4>
+                        <p>存储 Context Chunks 经 Embedding 后的高维向量，支撑语义搜索</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-search-line" style="color:var(--ob-blue);"></i></div>
-                        <h4>Full-Text Search</h4>
-                        <p>Builds inverted indexes for keyword sparse retrieval, ensuring precise matching</p>
+                        <h4>全文检索</h4>
+                        <p>构建倒排索引，支持关键词稀疏检索，保障精确匹配</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-error-warning-line" style="color:var(--ob-teal);"></i></div>
-                        <h4>Operational Nightmare</h4>
-                        <p>Each system requires independent backup, upgrade, and monitoring — any failure can cause global outages</p>
+                        <h4>运维噩梦</h4>
+                        <p>每套系统独立管理备份、升级、监控，任一环节故障可致全局性故障</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-refresh-line" style="color:var(--ob-blue);"></i></div>
-                        <h4>Data Sync Difficulties</h4>
-                        <p>High data consistency risks between heterogeneous components, complex sync pipelines prone to errors</p>
+                        <h4>数据同步困难</h4>
+                        <p>异构组件间数据一致性风险高，同步管道复杂易出错</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-money-cny-circle-line" style="color:var(--ob-teal);"></i></div>
-                        <h4>Rising Costs</h4>
-                        <p>The more complex the system, the greater the human investment, higher risks, linear growth in operational costs</p>
+                        <h4>成本攀升</h4>
+                        <p>系统越复杂，人力投入越大，风险越高，运维成本线性增长</p>
                     </div>
                 </div>
-                <aside class="notes">Traditional Agentic RAG relies on relational DB + vector DB + full-text search — three heterogeneous components with complex operations and data sync difficulties.</aside>
+                <aside class="notes">传统 Agentic RAG 依赖关系型数据库 + 向量数据库 + 全文检索三个异构组件，运维复杂、数据同步困难。</aside>
             </section>
 
             <!-- ══ Slide 3 · Dify v1.10.1 ══ -->
             <section data-background-color="#fafafa">
                 <div class="slide-label"><span class="pill">v1.10.1</span></div>
-                <h2 class="slide-title">Dify v1.10.1 — Native OceanBase/seekdb Support</h2>
+                <h2 class="slide-title">Dify v1.10.1 — 原生支持 OceanBase/seekdb</h2>
                 <div style="margin-top:1.2rem;font-size:0.85rem;color:var(--dim);text-align:center;margin-bottom:1rem;">
-                    OceanBase open source team and SF Express AI platform team jointly completed Dify MySQL compatibility development
+                    OceanBase 开源团队与顺丰 AI 技术平台组联合完成 Dify MySQL 兼容开发，Dify 开始尝试一体化数据库
                 </div>
                 <div class="grid-2" style="margin-top:0.5rem;">
                     <div class="callout">
-                        <strong><i class="ri-database-line" style="color:var(--ob-blue);margin-right:4px;"></i> MetaDB Layer</strong>
-                        <p>Dify now supports MySQL-type MetaDB with <code>DB_TYPE</code>. One migration script compatible with PostgreSQL / MySQL / OceanBase. seekdb can directly serve as Dify's metadata database.</p>
+                        <strong><i class="ri-database-line" style="color:var(--ob-blue);margin-right:4px;"></i> MetaDB 层</strong>
+                        <p>Dify 已适配 MySQL 型 MetaDB，引入 <code>DB_TYPE</code>，一套迁移脚本兼容 PostgreSQL / MySQL / OceanBase，seekdb 可直接当 Dify 元数据库用</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-search-eye-line" style="color:var(--ob-teal);margin-right:4px;"></i> Vector & Retrieval Layer</strong>
-                        <p>OceanBase is now an official Dify VectorStore: supports vector retrieval, Hybrid Search (vector + full-text), metadata filtering, and score threshold control.</p>
+                        <strong><i class="ri-search-eye-line" style="color:var(--ob-teal);margin-right:4px;"></i> 向量 & 检索层</strong>
+                        <p>OceanBase 已是 Dify 官方 VectorStore：支持向量检索、Hybrid Search（向量+全文）、metadata 过滤、score 阈值控制</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-shield-check-line" style="color:var(--ob-blue);margin-right:4px;"></i> Runtime & Quality</strong>
-                        <p>Dedicated OB profile in Docker Compose — containers ready to use; CI runs vector tests against real OB instances.</p>
+                        <strong><i class="ri-shield-check-line" style="color:var(--ob-blue);margin-right:4px;"></i> 运行环境 & 质量</strong>
+                        <p>Docker Compose 里有专门的 OB profile，起容器即可用；CI 里有真机 OB 实例跑向量相关测试保障</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-merge-cells-horizontal" style="color:var(--ob-teal);margin-right:4px;"></i> Unified Simplification</strong>
-                        <p>Business metadata, semantic vectors, and full-text indexes unified in one storage with transactional consistency, greatly simplifying operations.</p>
+                        <strong><i class="ri-merge-cells-horizontal" style="color:var(--ob-teal);margin-right:4px;"></i> 一体化精简</strong>
+                        <p>业务元数据、语义向量和全文索引统一存储检索，确保事务一致性，极大简化运维负担</p>
                     </div>
                 </div>
                 <div style="margin-top:1.2rem;font-size:0.8rem;color:var(--dim);text-align:center;">
                     <i class="ri-lightbulb-line" style="margin-right:4px;"></i>
-                    <strong>seekdb</strong> is OceanBase's AI-native lightweight edition, runs on 1C2G minimum, supports vector and full-text search
+                    <strong>seekdb</strong> 是 OceanBase 推出的 AI 原生轻量版，最低 1C2G 即可运行，支持向量与全文检索
                 </div>
-                <aside class="notes">Dify v1.10.1 officially supports MySQL/OceanBase/seekdb as MetaDB and OceanBase as vector store, achieving complete data layer simplification.</aside>
+                <aside class="notes">Dify v1.10.1 正式兼容 MySQL/OceanBase/seekdb 作为元数据库，同时支持 OceanBase 作为向量存储，实现数据层彻底精简。</aside>
             </section>
 
             <!-- ══ Slide 4 · Architecture ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">Architecture</span></div>
-                <h2 class="slide-title">Traditional vs seekdb Unified Architecture</h2>
+                <div class="slide-label"><span class="pill">架构</span></div>
+                <h2 class="slide-title">传统架构 vs seekdb 一体化架构</h2>
                 <div style="margin-top:1.5rem;text-align:center;">
                     <div style="display:flex;gap:2rem;justify-content:center;align-items:flex-start;">
-                        <!-- Traditional Architecture -->
+                        <!-- 传统架构 -->
                         <div style="flex:1;max-width:320px;">
-                            <div style="font-size:0.8rem;color:var(--dim);margin-bottom:0.6rem;">Traditional Multi-Component</div>
+                            <div style="font-size:0.8rem;color:var(--dim);margin-bottom:0.6rem;">传统多组件架构</div>
                             <div style="display:flex;flex-direction:column;gap:0.5rem;">
                                 <div style="background:var(--ob-blue-10);border:1px solid var(--ob-blue);border-radius:var(--radius);padding:0.6rem 1rem;">
-                                    <strong style="font-size:0.8rem;">Dify Platform</strong>
+                                    <strong style="font-size:0.8rem;">Dify 平台</strong>
                                 </div>
                                 <div style="font-size:1.2rem;color:var(--ghost);">↕ ×3</div>
                                 <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
                                     <div style="background:#fff3f3;border:1px solid #e88;border-radius:var(--radius);padding:0.5rem 0.6rem;flex:1;min-width:80px;">
                                         <strong style="font-size:0.7rem;color:#c44;">PostgreSQL</strong><br>
-                                        <span style="font-size:0.6rem;color:var(--dim);">Metadata</span>
+                                        <span style="font-size:0.6rem;color:var(--dim);">元数据</span>
                                     </div>
                                     <div style="background:#fff3f3;border:1px solid #e88;border-radius:var(--radius);padding:0.5rem 0.6rem;flex:1;min-width:80px;">
                                         <strong style="font-size:0.7rem;color:#c44;">Weaviate</strong><br>
-                                        <span style="font-size:0.6rem;color:var(--dim);">Vector</span>
+                                        <span style="font-size:0.6rem;color:var(--dim);">向量</span>
                                     </div>
                                     <div style="background:#fff3f3;border:1px solid #e88;border-radius:var(--radius);padding:0.5rem 0.6rem;flex:1;min-width:80px;">
                                         <strong style="font-size:0.7rem;color:#c44;">Elasticsearch</strong><br>
-                                        <span style="font-size:0.6rem;color:var(--dim);">Full-Text</span>
+                                        <span style="font-size:0.6rem;color:var(--dim);">全文</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Arrow -->
+                        <!-- 箭头 -->
                         <div style="display:flex;align-items:center;padding-top:2rem;">
                             <i class="ri-arrow-right-line" style="font-size:2rem;color:var(--ob-teal);"></i>
                         </div>
-                        <!-- Unified Architecture -->
+                        <!-- 一体化架构 -->
                         <div style="flex:1;max-width:320px;">
-                            <div style="font-size:0.8rem;color:var(--dim);margin-bottom:0.6rem;">seekdb Unified Architecture</div>
+                            <div style="font-size:0.8rem;color:var(--dim);margin-bottom:0.6rem;">seekdb 一体化架构</div>
                             <div style="display:flex;flex-direction:column;gap:0.5rem;">
                                 <div style="background:var(--ob-blue-10);border:1px solid var(--ob-blue);border-radius:var(--radius);padding:0.6rem 1rem;">
-                                    <strong style="font-size:0.8rem;">Dify Platform</strong>
+                                    <strong style="font-size:0.8rem;">Dify 平台</strong>
                                 </div>
                                 <div style="font-size:1.2rem;color:var(--ghost);">↕ ×1</div>
                                 <div style="background:var(--ob-teal-10);border:2px solid var(--ob-teal);border-radius:var(--radius-lg);padding:0.8rem 1rem;">
                                     <strong style="color:var(--ob-teal);font-size:0.85rem;">OceanBase seekdb</strong><br>
-                                    <span style="font-size:0.65rem;color:var(--dim);">Metadata · Vector Index · Full-Text · Hybrid Search</span>
+                                    <span style="font-size:0.65rem;color:var(--dim);">元数据 · 向量索引 · 全文检索 · 混合搜索</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <aside class="notes">Comparison: Traditional architecture requires 3 heterogeneous components vs seekdb unified architecture needs only 1 database.</aside>
+                <aside class="notes">对比传统架构需要 3 个异构组件 vs seekdb 一体化架构只需 1 个数据库。</aside>
             </section>
 
-            <!-- ══ Slide 5 · Docker Compose ══ -->
+            <!-- ══ Slide 5 · Deploy ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">Deploy</span></div>
-                <h2 class="slide-title">Docker Compose One-Click Deployment</h2>
+                <div class="slide-label"><span class="pill">部署</span></div>
+                <h2 class="slide-title">Docker Compose 一键部署</h2>
                 <div class="step-list" style="margin-top:1rem;">
                     <div class="step-item">
                         <span class="step-num">01</span>
                         <div class="step-content">
-                            <strong>Clone Dify Repository</strong>
+                            <strong>克隆 Dify 仓库</strong>
                             <p><code>git clone https://github.com/langgenius/dify.git && cd dify/docker</code></p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">02</span>
                         <div class="step-content">
-                            <strong>Copy Environment Template</strong>
+                            <strong>复制环境变量模板</strong>
                             <p><code>cp .env.example .env</code></p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">03</span>
                         <div class="step-content">
-                            <strong>Configure .env (Recommended Config)</strong>
-                            <p>Set seekdb as both MetaDB and Vector Store</p>
+                            <strong>配置 .env（见右侧推荐配置）</strong>
+                            <p>设置 seekdb 同时作为元数据库和向量数据库</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">04</span>
                         <div class="step-content">
-                            <strong>Launch Services</strong>
-                            <p><code>docker compose up -d</code> — wait for seekdb Healthy, auto-migration follows</p>
+                            <strong>启动服务</strong>
+                            <p><code>docker compose up -d</code> — 等待 seekdb Healthy 后自动迁移</p>
                         </div>
                     </div>
                 </div>
                 <div class="code-block" style="margin-top:1rem;">
-                    <div class="code-block-title">.env — seekdb as MetaDB + Vector Store (Recommended)</div>
-                    <pre><code class="language-bash"># MetaDB Configuration
+                    <div class="code-block-title">.env — seekdb 作为元数据库 + 向量数据库（推荐）</div>
+                    <pre><code class="language-bash"># 元数据库配置
 DB_TYPE=mysql
 DB_USERNAME=root
 DB_HOST=seekdb
 DB_PORT=2881
 DB_DATABASE=test
 
-# Vector Store Configuration
+# 向量存储配置
 VECTOR_STORE=oceanbase
 OCEANBASE_VECTOR_HOST=seekdb
 OCEANBASE_VECTOR_USER=root
 
-# Launch profile (seekdb only)
+# 启动 profile（仅 seekdb）
 COMPOSE_PROFILES=seekdb</code></pre>
                 </div>
-                <aside class="notes">Recommended: seekdb as both MetaDB and Vector Store. COMPOSE_PROFILES=seekdb starts only necessary containers.</aside>
+                <aside class="notes">推荐方案：seekdb 同时作为元数据库和向量数据库，COMPOSE_PROFILES=seekdb 只启动必要容器。</aside>
             </section>
 
             <!-- ══ Slide 6 · Three Config Options ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">Flexible Config</span></div>
-                <h2 class="slide-title">Three Configuration Options</h2>
+                <div class="slide-label"><span class="pill">灵活配置</span></div>
+                <h2 class="slide-title">三种配置方式，按需选择</h2>
                 <div class="grid-2" style="margin-top:1.5rem;">
                     <div class="callout">
-                        <strong><i class="ri-database-line" style="color:var(--ob-blue);margin-right:4px;"></i> Option 1: seekdb as MetaDB Only</strong>
+                        <strong><i class="ri-database-line" style="color:var(--ob-blue);margin-right:4px;"></i> 情况 1：seekdb 仅作元数据库</strong>
                         <div class="code-block" style="margin-top:0.5rem;font-size:0.75rem;">
                             <pre><code class="language-bash">DB_TYPE=mysql
 DB_HOST=seekdb
 DB_PORT=2881
 DB_DATABASE=test
-# Vector store uses default</code></pre>
+# 向量存储保持默认</code></pre>
                         </div>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-search-line" style="color:var(--ob-teal);margin-right:4px;"></i> Option 2: seekdb as Vector Store Only</strong>
+                        <strong><i class="ri-search-line" style="color:var(--ob-teal);margin-right:4px;"></i> 情况 2：seekdb 仅作向量数据库</strong>
                         <div class="code-block" style="margin-top:0.5rem;font-size:0.75rem;">
                             <pre><code class="language-bash">VECTOR_STORE=oceanbase
 OCEANBASE_VECTOR_HOST=seekdb
 OCEANBASE_VECTOR_USER=root
-# MetaDB keeps PostgreSQL</code></pre>
+# 元数据库保持 PostgreSQL</code></pre>
                         </div>
                     </div>
                 </div>
                 <div class="callout" style="margin-top:1rem;border-color:var(--ob-teal);background:var(--ob-teal-10);">
-                    <strong><i class="ri-star-line" style="color:var(--ob-teal);margin-right:4px;"></i> Option 3: seekdb as Both MetaDB and Vector Store (Recommended)</strong>
+                    <strong><i class="ri-star-line" style="color:var(--ob-teal);margin-right:4px;"></i> 情况 3：seekdb 同时作为元数据库和向量数据库（推荐）</strong>
                     <div class="code-block" style="margin-top:0.5rem;font-size:0.75rem;">
                         <pre><code class="language-bash">DB_TYPE=mysql
 DB_HOST=seekdb
@@ -260,116 +260,116 @@ VECTOR_STORE=oceanbase
 OCEANBASE_VECTOR_HOST=seekdb
 COMPOSE_PROFILES=seekdb</code></pre>
                     </div>
-                    <p style="font-size:0.8rem;margin-top:0.5rem;">One database for everything: metadata + vectors + full-text indexes, zero operational burden</p>
+                    <p style="font-size:0.8rem;margin-top:0.5rem;">一个数据库搞定所有：元数据 + 向量 + 全文索引，运维零负担</p>
                 </div>
-                <aside class="notes">Three flexible configuration options. Option 3 (unified) is recommended. COMPOSE_PROFILES=seekdb starts only necessary containers.</aside>
+                <aside class="notes">三种配置方式灵活选择，推荐情况3一体化方案。COMPOSE_PROFILES=seekdb 只启动必要容器。</aside>
             </section>
 
             <!-- ══ Slide 7 · Build AI App ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">Practice</span></div>
-                <h2 class="slide-title">Build AI Apps with Dify</h2>
+                <div class="slide-label"><span class="pill">实战</span></div>
+                <h2 class="slide-title">通过 Dify 构建 AI 应用</h2>
                 <div class="step-list" style="margin-top:1rem;">
                     <div class="step-item">
                         <span class="step-num">01</span>
                         <div class="step-content">
-                            <strong>Configure Model Provider</strong>
-                            <p>Settings → Model Provider → Enter API Key (e.g., Alibaba Cloud Bailian) → Select system inference and embedding models</p>
+                            <strong>设置模型供应商</strong>
+                            <p>设置 → 模型供应商 → 填入 API Key（如阿里云百炼）→ 选择系统推理模型和 Embedding 模型</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">02</span>
                         <div class="step-content">
-                            <strong>Create Knowledge Base</strong>
-                            <p>Knowledge → Create → Index Mode: "High Quality" → Select Embedding Model → Upload documents → Auto chunking and embedding</p>
+                            <strong>创建知识库</strong>
+                            <p>知识库 → 创建 → 索引方式选"高质量" → 选择 Embedding 模型 → 上传文档 → 自动分块与嵌入</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">03</span>
                         <div class="step-content">
-                            <strong>Create ChatBot App</strong>
-                            <p>Studio → Create Blank App → Chat Assistant → Add Knowledge Base context → Debug and preview</p>
+                            <strong>创建 ChatBot 应用</strong>
+                            <p>工作室 → 创建空白应用 → 聊天助手 → 添加知识库上下文 → 调试预览</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">04</span>
                         <div class="step-content">
-                            <strong>Publish App</strong>
-                            <p>Click Publish → Run → Get dedicated app page, shareable with your team</p>
+                            <strong>发布应用</strong>
+                            <p>点击发布 → 运行 → 获得专属应用页面，可分享给团队使用</p>
                         </div>
                     </div>
                 </div>
-                <aside class="notes">Four steps to build an AI app: Configure models → Create knowledge base → Build ChatBot → Publish.</aside>
+                <aside class="notes">四步完成 AI 应用搭建：配模型 → 建知识库 → 建 ChatBot → 发布。</aside>
             </section>
 
             <!-- ══ Slide 8 · Verification ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">Verification</span></div>
-                <h2 class="slide-title">Deployment Verification & Data Observation</h2>
+                <div class="slide-label"><span class="pill">验证</span></div>
+                <h2 class="slide-title">部署验证与数据观测</h2>
                 <div class="grid-2" style="margin-top:1.2rem;">
                     <div class="callout">
-                        <strong><i class="ri-checkbox-circle-line" style="color:var(--ob-blue);margin-right:4px;"></i> Migration Confirmation</strong>
-                        <p>Check api service logs for <code>Database migration successful!</code> to confirm successful migration</p>
+                        <strong><i class="ri-checkbox-circle-line" style="color:var(--ob-blue);margin-right:4px;"></i> 迁移确认</strong>
+                        <p>查看 api 服务日志，出现 <code>Database migration successful!</code> 即确认迁移成功</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-test-tube-line" style="color:var(--ob-teal);margin-right:4px;"></i> Vector Capability Test</strong>
-                        <p>Create knowledge base → Upload documents → Observe chunks and indexes → Successful embedding and retrieval confirms configuration</p>
+                        <strong><i class="ri-test-tube-line" style="color:var(--ob-teal);margin-right:4px;"></i> 向量能力测试</strong>
+                        <p>创建知识库 → 上传文档 → 观察切片与索引 → 成功嵌入并检索即配置成功</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-terminal-line" style="color:var(--ob-blue);margin-right:4px;"></i> SQL Direct Connection</strong>
-                        <p><code>mysql -h127.0.0.1 -P2881 -uroot -Dtest</code> to view knowledge base schema and vector data</p>
+                        <strong><i class="ri-terminal-line" style="color:var(--ob-blue);margin-right:4px;"></i> SQL 直连观测</strong>
+                        <p><code>mysql -h127.0.0.1 -P2881 -uroot -Dtest</code> 可查看知识库表结构和向量数据</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-bar-chart-line" style="color:var(--ob-teal);margin-right:4px;"></i> Resource Usage</strong>
-                        <p>seekdb container memory stable at ~1GB, runs on 1C2G, handles both relational and vector workloads</p>
+                        <strong><i class="ri-bar-chart-line" style="color:var(--ob-teal);margin-right:4px;"></i> 资源占用</strong>
+                        <p>seekdb 容器内存稳定在 ~1GB，1C2G 即可运行，兼顾关系型与向量双重负载</p>
                     </div>
                 </div>
                 <div class="code-block" style="margin-top:1rem;">
-                    <div class="code-block-title">Verify Migration Status & Connect to Database</div>
-                    <pre><code class="language-bash"># Check api service logs
+                    <div class="code-block-title">验证迁移状态与连接数据库</div>
+                    <pre><code class="language-bash"># 查看 api 服务日志
 docker logs -f docker-api-1
 
-# Success indicator
+# 成功标志
 # ✅ Database migration successful!
 
-# SQL direct connection to seekdb
+# SQL 直连 seekdb 查看知识库
 mysql -h127.0.0.1 -P2881 -uroot@test -p
 
-# View databases
+# 查看数据库列表
 SHOW DATABASES;
 
-# Switch to dify database
+# 切换到 dify 数据库
 USE dify;
 
-# View tables
+# 查看表结构
 SHOW TABLES;
 
-# View knowledge base schema
+# 查看知识库表结构
 DESC vector_index_xxx_node;</code></pre>
                 </div>
-                <aside class="notes">Confirm successful migration via logs, observe knowledge base data structure via SQL direct connection to verify vector store configuration.</aside>
+                <aside class="notes">通过日志确认迁移成功，通过 SQL 直连观测知识库数据结构，验证向量存储配置正确。</aside>
             </section>
 
             <!-- ══ Slide 9 · Closing ══ -->
             <section data-background-color="#1a1aff">
                 <div class="slide-hero text-center" style="max-width:860px;">
-                    <h2 style="color:#fff;font-size:2rem;">Dify + seekdb: One Database for Agentic RAG</h2>
-                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">Unified Storage · Native Hybrid Search · Transactional Consistency · Minimal Operations</p>
+                    <h2 style="color:#fff;font-size:2rem;">Dify + seekdb：一个数据库搞定 Agentic RAG</h2>
+                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">一体化存储 · 原生混合搜索 · 事务一致性 · 极简运维</p>
                     <div style="margin-top:2rem;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
                         <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
-                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Metadata</div>
-                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">MySQL Compatible</div>
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">元数据</div>
+                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">MySQL 兼容</div>
                         </div>
                         <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
-                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Vector Search</div>
-                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">HNSW Index</div>
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">向量检索</div>
+                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">HNSW 索引</div>
                         </div>
                         <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
-                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Full-Text</div>
-                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">Multi-lang Tokenizer</div>
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">全文检索</div>
+                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">多语言分词</div>
                         </div>
                         <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
-                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Minimum Spec</div>
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">最低配置</div>
                             <div style="color:#fff;font-size:0.9rem;font-weight:600;">1C2G</div>
                         </div>
                     </div>
@@ -377,7 +377,7 @@ DESC vector_index_xxx_node;</code></pre>
                         <a href="https://github.com/oceanbase/seekdb" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/seekdb</a>
                     </div>
                 </div>
-                <aside class="notes">Summary: Dify v1.10.1 + seekdb achieves unified database — one engine for metadata + vectors + full-text, from deployment to apps with minimal complexity.</aside>
+                <aside class="notes">总结：引用荀子名言"君子性非异也，善假于物也"，Dify v1.10.1 + seekdb 实现一体化数据库，一个引擎搞定元数据+向量+全文，从部署到应用极简。</aside>
             </section>
 
         </div>

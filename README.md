@@ -2,7 +2,7 @@
 
 Demos showing how OceanBase integrates with AI frameworks like LangChain, Dify, and RAGFlow.
 
-[Live Demo (CN)](https://zhanghuidinah.github.io/oceanbase-x/) · [Live Demo (EN)](https://zhanghuidinah.github.io/oceanbase-x/index_en.html)
+[Live Demo (EN)](https://zhanghuidinah.github.io/oceanbase-x/) · [Live Demo (CN)](https://zhanghuidinah.github.io/oceanbase-x/index_zh.html)
 
 ## Contents
 
@@ -20,7 +20,7 @@ python -m http.server 8000
 
 Then open http://localhost:8000
 
-You can also open `index.html` (CN) or `index_en.html` (EN) directly in each subdirectory.
+You can also open `index.html` (EN) or `index_zh.html` (CN) directly in each subdirectory.
 
 ## Tech Stack
 

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OceanBase × RAGFlow — PowerRAG 多模态检索增强生成</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="reveal-theme">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/github.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/ob-theme.css">
+</head>
+<body>
+    <div class="lang-switch">
+        <a href="index.html">EN</a>
+        <span>/</span>
+        <a class="active" href="index_zh.html">中文</a>
+    </div>
+    <a class="nordic-logo" href="../index_zh.html">
+        <img src="../assets/logo.png" alt="OceanBase" class="nordic-logo-img">
+        <span class="nordic-logo-name">OceanBase</span>
+        <span class="nordic-logo-text">OB × RAGFlow</span>
+    </a>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ══ Slide 1 · Cover ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <h1 style="font-size:2.6rem;line-height:1.1;">OceanBase × RAGFlow</h1>
+                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">PowerRAG：多模态检索增强生成<br>基于 OceanBase 的企业级 RAG 解决方案</p>
+                    <div style="width:48px;height:3px;background:var(--ob-blue);border-radius:2px;margin:2rem 0 1.5rem;"></div>
+                    <div class="author-block" style="align-items:center;margin-top:0;">
+                        <div class="author-name">OceanBase DevRel</div>
+                        <div class="author-meta">Developer Relations @ OceanBase</div>
+                    </div>
+                </div>
+                <aside class="notes">开场：介绍 PowerRAG — 基于 RAGFlow + OceanBase 构建的企业级 RAG 平台。</aside>
+            </section>
+
+            <!-- ══ Slide 2 · RAGFlow Overview ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">RAGFlow 简介</span></div>
+                <h2 class="slide-title">RAGFlow — 深度文档理解 RAG 引擎</h2>
+                <div class="feature-grid" style="margin-top:1.2rem;">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-file-search-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>深度文档解析</h4>
+                        <p>PDF / Excel / 图片 / PPT 多格式解析，保留结构化信息</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-puzzle-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>可组分块</h4>
+                        <p>手动 / 自动 / Q&A / Table / Paper 多种分块策略</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-robot-2-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Agent 编排</h4>
+                        <p>可视化 Agent Flow，支持工具调用、条件分支、循环</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-brain-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Memory 管理</h4>
+                        <p>Agent 长期记忆，跨会话持久化，支持 CRUD 与检索</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-shield-keyhole-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>知识库治理</h4>
+                        <p>元数据批量管理、文件状态追踪、质量监控</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-git-repository-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>开源 Apache 2.0</h4>
+                        <p>InfiniFlow 开源，社区活跃，支持私有化部署</p>
+                    </div>
+                </div>
+                <aside class="notes">RAGFlow 是 InfiniFlow 开源的深度文档理解 RAG 引擎，核心优势在于文档解析质量和可组分块。</aside>
+            </section>
+
+            <!-- ══ Slide 3 · What is PowerRAG ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">PowerRAG</span></div>
+                <h2 class="slide-title">PowerRAG — OceanBase 版 RAGFlow</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-stack-line" style="color:var(--ob-blue);margin-right:4px;"></i> 架构定位</strong>
+                        <p>基于 RAGFlow 基础框架，OceanBase 多模态一体化数据库作为底座，提供扩展能力与企业级增强。</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-database-2-line" style="color:var(--ob-teal);margin-right:4px;"></i> OceanBase 底座</strong>
+                        <p>替代 MySQL 作为主数据库，统一存储元数据、向量、全文索引，一个引擎全覆盖。</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-search-eye-line" style="color:var(--ob-blue);margin-right:4px;"></i> 多模态检索</strong>
+                        <p>SQL + NoSQL 一体化架构，充分利用 OceanBase 的高性能向量检索和全文搜索能力。</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-community-line" style="color:var(--ob-teal);margin-right:4px;"></i> 社区版开源</strong>
+                        <p>PowerRAG Community Edition 基于 RAGFlow，Apache 2.0 协议开源，Docker Hub 可直接拉取。</p>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Shell — Docker 启动 PowerRAG</div>
+                    <pre><code class="language-bash">docker pull oceanbase/powerrag:latest
+
+# 启动 PowerRAG Community Edition
+# 内置 OceanBase 作为主数据库
+docker run -d --name powerrag \
+  -p 80:80 \
+  -p 443:443 \
+  oceanbase/powerrag:latest</code></pre>
+                </div>
+                <aside class="notes">PowerRAG 是基于 RAGFlow 构建的 OceanBase 版 RAG 平台，社区版在 Docker Hub 可直接拉取。</aside>
+            </section>
+
+            <!-- ══ Slide 4 · Architecture ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">架构</span></div>
+                <h2 class="slide-title">PowerRAG 技术架构</h2>
+                <div style="margin-top:1.5rem;text-align:center;">
+                    <div style="display:inline-flex;flex-direction:column;gap:0.6rem;max-width:720px;">
+                        <div style="background:var(--ob-blue-10);border:2px solid var(--ob-blue);border-radius:var(--radius-lg);padding:0.8rem 2rem;">
+                            <strong style="color:var(--ob-blue);">PowerRAG 扩展层</strong><br>
+                            <span style="font-size:0.72rem;color:var(--dim);">企业级增强 · 知识库治理 · Memory 管理 · Agent Chat · 多租户</span>
+                        </div>
+                        <div style="font-size:1.2rem;color:var(--ghost);">↕</div>
+                        <div style="background:#f0f0ff;border:2px solid #6366f1;border-radius:var(--radius-lg);padding:0.8rem 2rem;">
+                            <strong style="color:#6366f1;">RAGFlow 核心框架</strong><br>
+                            <span style="font-size:0.72rem;color:var(--dim);">文档解析 · 分块策略 · 向量嵌入 · 检索引擎 · Agent Flow</span>
+                        </div>
+                        <div style="font-size:1.2rem;color:var(--ghost);">↕</div>
+                        <div style="background:var(--ob-teal-10);border:2px solid var(--ob-teal);border-radius:var(--radius-lg);padding:0.8rem 2rem;">
+                            <strong style="color:var(--ob-teal);">OceanBase 多模态数据库</strong><br>
+                            <span style="font-size:0.72rem;color:var(--dim);">元数据 (OLTP) · 向量索引 (HNSW) · 全文检索 (FULLTEXT) · JSON · GIS</span>
+                        </div>
+                        <div style="font-size:1.2rem;color:var(--ghost);">↕</div>
+                        <div style="display:flex;gap:0.6rem;justify-content:center;">
+                            <div style="background:var(--lift);border:1px solid var(--rule);border-radius:var(--radius);padding:0.6rem 1rem;flex:1;">
+                                <strong style="font-size:0.8rem;">Redis</strong><br>
+                                <span style="font-size:0.65rem;color:var(--dim);">缓存 & 队列</span>
+                            </div>
+                            <div style="background:var(--lift);border:1px solid var(--rule);border-radius:var(--radius);padding:0.6rem 1rem;flex:1;">
+                                <strong style="font-size:0.8rem;">MinIO</strong><br>
+                                <span style="font-size:0.65rem;color:var(--dim);">对象存储</span>
+                            </div>
+                            <div style="background:var(--lift);border:1px solid var(--rule);border-radius:var(--radius);padding:0.6rem 1rem;flex:1;">
+                                <strong style="font-size:0.8rem;">Elasticsearch</strong><br>
+                                <span style="font-size:0.65rem;color:var(--dim);">全文索引 (可选)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">架构三层：PowerRAG 扩展层 → RAGFlow 核心框架 → OceanBase 底座。OceanBase 替代 MySQL 作为主数据库。</aside>
+            </section>
+
+            <!-- ══ Slide 5 · Key Features ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">核心能力</span></div>
+                <h2 class="slide-title">PowerRAG 核心能力</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-brain-line" style="color:var(--ob-blue);margin-right:4px;"></i> Memory 管理</strong>
+                        <p>Agent 长期记忆提取、嵌入、存储全流程可观测。支持 RESTful API 和 Python SDK 进行 CRUD 和智能检索。</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-chat-3-line" style="color:var(--ob-teal);margin-right:4px;"></i> Agent Chat</strong>
+                        <p>Agent 内置聊天界面，保留完整对话历史，支持多会话管理和上下文恢复。</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-folder-shield-line" style="color:var(--ob-blue);margin-right:4px;"></i> 知识库治理</strong>
+                        <p>元数据批量管理、文件状态追踪、质量监控，确保知识库数据资产可管可控。</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-user-settings-line" style="color:var(--ob-teal);margin-right:4px;"></i> 多管理员支持</strong>
+                        <p>突破单 admin 限制，支持多超级用户权限分配，适配企业组织架构。</p>
+                    </div>
+                </div>
+                <aside class="notes">PowerRAG 在 RAGFlow 基础上增加了 Memory、Agent Chat、知识库治理、多管理员等企业级能力。</aside>
+            </section>
+
+            <!-- ══ Slide 6 · OceanBase as RAGFlow DB ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">OceanBase 替换</span></div>
+                <h2 class="slide-title">OceanBase 替代 MySQL 的优势</h2>
+                <table style="margin-top:1rem;">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">维度</th>
+                            <th style="width:37%;">MySQL + 外挂向量库</th>
+                            <th style="width:38%;background:var(--ob-blue-10);">OceanBase 统一引擎</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>元数据存储</strong></td>
+                            <td>MySQL</td>
+                            <td style="background:var(--ob-blue-10);">OceanBase (MySQL 兼容)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>向量检索</strong></td>
+                            <td>需外挂 Pinecone / Weaviate</td>
+                            <td style="background:var(--ob-blue-10);"><strong>内置 HNSW 向量索引</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>全文检索</strong></td>
+                            <td>需外挂 Elasticsearch</td>
+                            <td style="background:var(--ob-blue-10);"><strong>内置 FULLTEXT 索引</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>数据一致性</strong></td>
+                            <td>跨系统同步，有延迟</td>
+                            <td style="background:var(--ob-blue-10);"><strong>ACID 事务，零延迟</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>运维复杂度</strong></td>
+                            <td>3+ 系统运维</td>
+                            <td style="background:var(--ob-blue-10);"><strong>1 个引擎</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>迁移成本</strong></td>
+                            <td>—</td>
+                            <td style="background:var(--ob-blue-10);"><strong>MySQL 协议兼容，零改造</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">OceanBase 替代 MySQL + 向量库 + ES 三件套，MySQL 协议兼容，迁移零改造。</aside>
+            </section>
+
+            <!-- ══ Slide 7 · Memory System ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Memory</span></div>
+                <h2 class="slide-title">Agent Memory 系统 — PowerMem</h2>
+                <div class="step-list" style="margin-top:1rem;">
+                    <div class="step-item">
+                        <span class="step-num">01</span>
+                        <div class="step-content">
+                            <strong>记忆提取</strong>
+                            <p>从对话中自动提取关键信息，异步嵌入与存储，全流程日志可追踪</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">02</span>
+                        <div class="step-content">
+                            <strong>持久化存储</strong>
+                            <p>基于 OceanBase 向量存储，ACID 保证记忆不丢失，跨会话持久化</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">03</span>
+                        <div class="step-content">
+                            <strong>智能检索</strong>
+                            <p>关键词 + 语义相似度双路检索，快速定位相关记忆</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">04</span>
+                        <div class="step-content">
+                            <strong>API 集成</strong>
+                            <p>RESTful API + Python SDK，支持 CRUD、启用/禁用、遗忘管理</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:1rem;background:var(--ob-blue-10);border-radius:var(--radius);padding:1rem 1.2rem;">
+                    <strong style="color:var(--ob-blue);font-size:0.85rem;"><i class="ri-trophy-line" style="margin-right:4px;"></i> LOCOMO Benchmark SOTA</strong>
+                    <p style="font-size:0.78rem;color:var(--dim);margin-top:4px;">PowerMem 在 LOCOMO 长期记忆基准测试上达到 SOTA，同时将上下文 Token 使用量削减 96%。</p>
+                </div>
+                <aside class="notes">PowerMem 是基于 seekdb 构建的 Agent 记忆系统，在 LOCOMO 基准测试达到 SOTA，Token 使用量降低 96%。</aside>
+            </section>
+
+            <!-- ══ Slide 8 · Enterprise RAG ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">企业级</span></div>
+                <h2 class="slide-title">企业级 RAG 实践要点</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-shield-check-line" style="color:var(--ob-blue);margin-right:4px;"></i> 数据安全</strong>
+                        <p>OceanBase 传输加密 + 透明加密，知识库访问权限控制，多租户隔离</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-bar-chart-box-line" style="color:var(--ob-teal);margin-right:4px;"></i> 可观测性</strong>
+                        <p>Memory 提取状态与日志、检索质量监控、Token 用量统计</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-scale-line" style="color:var(--ob-blue);margin-right:4px;"></i> 高可用</strong>
+                        <p>OceanBase Paxos 协议，RPO=0，RPO<30s，支撑 7×24 业务连续性</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-expand-diagonal-line" style="color:var(--ob-teal);margin-right:4px;"></i> 弹性扩展</strong>
+                        <p>在线扩缩容，知识库从 GB 到 TB 级无缝扩展，无需停机</p>
+                    </div>
+                </div>
+                <aside class="notes">企业级 RAG 关注数据安全、可观测性、高可用、弹性扩展。OceanBase 在这些方面有天然优势。</aside>
+            </section>
+
+            <!-- ══ Slide 9 · Quick Start ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">快速开始</span></div>
+                <h2 class="slide-title">5 分钟部署 PowerRAG</h2>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Shell — Docker Compose 启动</div>
+                    <pre><code class="language-bash"># 克隆 PowerRAG 仓库
+git clone https://github.com/oceanbase/powerrag.git
+cd powerrag
+
+# Docker Compose 启动（内置 OceanBase）
+docker compose up -d
+
+# 或直接拉取 Docker Hub 镜像
+docker pull oceanbase/powerrag:latest</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:0.6rem;">
+                    <div class="code-block-title">配置 LLM 模型</div>
+                    <pre><code class="language-yaml"># 在 PowerRAG 控制台配置模型
+# 设置 → 模型提供商 → 添加 Ollama / OpenAI / vLLM
+
+# 推荐 Ollama 本地部署
+ollama pull llama3.2    # Chat 模型
+ollama pull bge-m3      # Embedding 模型
+
+# PowerRAG 设置
+Chat Model: llama3.2
+Embedding Model: bge-m3
+Base URL: http://host.docker.internal:11434</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:0.6rem;">
+                    <div class="code-block-title">创建知识库 & 开始对话</div>
+                    <pre><code class="text">1. 知识库 → 新建 → 上传文档（PDF/Markdown/Excel）
+2. 选择分块策略 → 自动解析 & 嵌入
+3. Chat → 关联知识库 → 开始 RAG 对话
+4. Agent → 创建 Agent Flow → 添加 Memory 节点</code></pre>
+                </div>
+                <aside class="notes">三步上手：1) Docker 启动 2) 配置 LLM 模型 3) 创建知识库开始对话。支持 Ollama 本地模型。</aside>
+            </section>
+
+            <!-- ══ Slide 10 · Closing ══ -->
+            <section data-background-color="#1a1aff">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <img src="../assets/logo.png" alt="OceanBase" class="closing-logo" style="height:36px; margin-bottom:1.5rem;">
+                    <h2 style="color:#fff;font-size:2rem;">PowerRAG：OceanBase 驱动的企业级 RAG</h2>
+                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">多模态检索 · Memory SOTA · 知识库治理 · 一键部署</p>
+                    <div class="closing-links" style="margin-top:2rem;color:rgba(255,255,255,0.6);">
+                        <a href="https://github.com/oceanbase/powerrag" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/powerrag</a><br>
+                        <a href="https://hub.docker.com/r/oceanbase/powerrag" target="_blank" style="color:rgba(255,255,255,0.8);">Docker Hub — oceanbase/powerrag</a><br>
+                        <a href="https://ragflow.io" target="_blank" style="color:rgba(255,255,255,0.8);">ragflow.io</a>
+                    </div>
+                </div>
+                <aside class="notes">总结：PowerRAG 基于 RAGFlow + OceanBase，为企业提供开箱即用的 RAG 解决方案。</aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'fade',
+            backgroundTransition: 'fade',
+            plugins: [RevealNotes, RevealHighlight],
+        });
+    </script>
+</body>
+</html>
