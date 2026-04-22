@@ -4,9 +4,6 @@
 
 **Bringing the Database into AI Workflows**
 
-[中文](https://zhanghuidinah.github.io/oceanbase-x/) · [English](https://zhanghuidinah.github.io/oceanbase-x/index_en.html)
-
-</div>
 
 ---
 
