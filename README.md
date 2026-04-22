@@ -4,8 +4,6 @@
 
 **Bringing the Database into AI Workflows**
 
-[中文](https://oceanbase.github.io/ob-x/) · [English](https://oceanbase.github.io/ob-x/index_en.html)
-
 </div>
 
 ---
