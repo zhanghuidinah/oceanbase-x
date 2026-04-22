@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OceanBase × Dify — One-Click Vector Store for AI App Platform</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="reveal-theme">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/github.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/ob-theme.css">
+</head>
+<body>
+    <div class="lang-switch">
+        <a href="index.html">中文</a>
+        <span>/</span>
+        <a class="active" href="index_en.html">EN</a>
+    </div>
+    <a class="nordic-logo" href="../index.html">
+        <img src="../assets/logo.png" alt="OceanBase" class="nordic-logo-img">
+        <span class="nordic-logo-name">OceanBase</span>
+        <span class="nordic-logo-text">OB × Dify</span>
+    </a>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ══ Slide 1 · Cover ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <h1 style="font-size:2.6rem;line-height:1.1;">OceanBase × Dify</h1>
+                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">Unified Database Simplifies Agentic RAG Deployment<br>Dify v1.10.1 + seekdb — From Configuration to AI Apps</p>
+                    <div style="width:48px;height:3px;background:var(--ob-blue);border-radius:2px;margin:2rem 0 1.5rem;"></div>
+                    <div class="author-block" style="align-items:center;margin-top:0;">
+                        <div class="author-name">OceanBase</div>
+                        <div class="author-meta">Developer Relations</div>
+                    </div>
+                </div>
+                <aside class="notes">Introduction: Dify v1.10.1 + seekdb unified database simplifies Agentic RAG deployment. One database handles metadata, vectors, and full-text search.</aside>
+            </section>
+
+            <!-- ══ Slide 2 · Pain Points ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Pain Points</span></div>
+                <h2 class="slide-title">Traditional Agentic RAG Multi-Component Challenges</h2>
+                <div style="margin-top:1.2rem;font-size:0.85rem;color:var(--dim);text-align:center;margin-bottom:1rem;">
+                    Traditional solutions rely on three heterogeneous components — the more complex the system, the heavier the operational burden
+                </div>
+                <div class="feature-grid" style="margin-top:1.2rem;">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-database-2-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Relational Database</h4>
+                        <p>Stores users, app configs, Agent task states, knowledge base metadata — strongly transactional, structured data</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-brain-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Vector Database</h4>
+                        <p>Stores high-dimensional vectors from embedded Context Chunks, powering semantic search</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-search-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Full-Text Search</h4>
+                        <p>Builds inverted indexes for keyword sparse retrieval, ensuring precise matching</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-error-warning-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Operational Nightmare</h4>
+                        <p>Each system requires independent backup, upgrade, and monitoring — any failure can cause global outages</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-refresh-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Data Sync Difficulties</h4>
+                        <p>High data consistency risks between heterogeneous components, complex sync pipelines prone to errors</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-money-cny-circle-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Rising Costs</h4>
+                        <p>The more complex the system, the greater the human investment, higher risks, linear growth in operational costs</p>
+                    </div>
+                </div>
+                <aside class="notes">Traditional Agentic RAG relies on relational DB + vector DB + full-text search — three heterogeneous components with complex operations and data sync difficulties.</aside>
+            </section>
+
+            <!-- ══ Slide 3 · Dify v1.10.1 ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">v1.10.1</span></div>
+                <h2 class="slide-title">Dify v1.10.1 — Native OceanBase/seekdb Support</h2>
+                <div style="margin-top:1.2rem;font-size:0.85rem;color:var(--dim);text-align:center;margin-bottom:1rem;">
+                    OceanBase open source team and SF Express AI platform team jointly completed Dify MySQL compatibility development
+                </div>
+                <div class="grid-2" style="margin-top:0.5rem;">
+                    <div class="callout">
+                        <strong><i class="ri-database-line" style="color:var(--ob-blue);margin-right:4px;"></i> MetaDB Layer</strong>
+                        <p>Dify now supports MySQL-type MetaDB with <code>DB_TYPE</code>. One migration script compatible with PostgreSQL / MySQL / OceanBase. seekdb can directly serve as Dify's metadata database.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-search-eye-line" style="color:var(--ob-teal);margin-right:4px;"></i> Vector & Retrieval Layer</strong>
+                        <p>OceanBase is now an official Dify VectorStore: supports vector retrieval, Hybrid Search (vector + full-text), metadata filtering, and score threshold control.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-shield-check-line" style="color:var(--ob-blue);margin-right:4px;"></i> Runtime & Quality</strong>
+                        <p>Dedicated OB profile in Docker Compose — containers ready to use; CI runs vector tests against real OB instances.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-merge-cells-horizontal" style="color:var(--ob-teal);margin-right:4px;"></i> Unified Simplification</strong>
+                        <p>Business metadata, semantic vectors, and full-text indexes unified in one storage with transactional consistency, greatly simplifying operations.</p>
+                    </div>
+                </div>
+                <div style="margin-top:1.2rem;font-size:0.8rem;color:var(--dim);text-align:center;">
+                    <i class="ri-lightbulb-line" style="margin-right:4px;"></i>
+                    <strong>seekdb</strong> is OceanBase's AI-native lightweight edition, runs on 1C2G minimum, supports vector and full-text search
+                </div>
+                <aside class="notes">Dify v1.10.1 officially supports MySQL/OceanBase/seekdb as MetaDB and OceanBase as vector store, achieving complete data layer simplification.</aside>
+            </section>
+
+            <!-- ══ Slide 4 · Architecture ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Architecture</span></div>
+                <h2 class="slide-title">Traditional vs seekdb Unified Architecture</h2>
+                <div style="margin-top:1.5rem;text-align:center;">
+                    <div style="display:flex;gap:2rem;justify-content:center;align-items:flex-start;">
+                        <!-- Traditional Architecture -->
+                        <div style="flex:1;max-width:320px;">
+                            <div style="font-size:0.8rem;color:var(--dim);margin-bottom:0.6rem;">Traditional Multi-Component</div>
+                            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                                <div style="background:var(--ob-blue-10);border:1px solid var(--ob-blue);border-radius:var(--radius);padding:0.6rem 1rem;">
+                                    <strong style="font-size:0.8rem;">Dify Platform</strong>
+                                </div>
+                                <div style="font-size:1.2rem;color:var(--ghost);">↕ ×3</div>
+                                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                                    <div style="background:#fff3f3;border:1px solid #e88;border-radius:var(--radius);padding:0.5rem 0.6rem;flex:1;min-width:80px;">
+                                        <strong style="font-size:0.7rem;color:#c44;">PostgreSQL</strong><br>
+                                        <span style="font-size:0.6rem;color:var(--dim);">Metadata</span>
+                                    </div>
+                                    <div style="background:#fff3f3;border:1px solid #e88;border-radius:var(--radius);padding:0.5rem 0.6rem;flex:1;min-width:80px;">
+                                        <strong style="font-size:0.7rem;color:#c44;">Weaviate</strong><br>
+                                        <span style="font-size:0.6rem;color:var(--dim);">Vector</span>
+                                    </div>
+                                    <div style="background:#fff3f3;border:1px solid #e88;border-radius:var(--radius);padding:0.5rem 0.6rem;flex:1;min-width:80px;">
+                                        <strong style="font-size:0.7rem;color:#c44;">Elasticsearch</strong><br>
+                                        <span style="font-size:0.6rem;color:var(--dim);">Full-Text</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Arrow -->
+                        <div style="display:flex;align-items:center;padding-top:2rem;">
+                            <i class="ri-arrow-right-line" style="font-size:2rem;color:var(--ob-teal);"></i>
+                        </div>
+                        <!-- Unified Architecture -->
+                        <div style="flex:1;max-width:320px;">
+                            <div style="font-size:0.8rem;color:var(--dim);margin-bottom:0.6rem;">seekdb Unified Architecture</div>
+                            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                                <div style="background:var(--ob-blue-10);border:1px solid var(--ob-blue);border-radius:var(--radius);padding:0.6rem 1rem;">
+                                    <strong style="font-size:0.8rem;">Dify Platform</strong>
+                                </div>
+                                <div style="font-size:1.2rem;color:var(--ghost);">↕ ×1</div>
+                                <div style="background:var(--ob-teal-10);border:2px solid var(--ob-teal);border-radius:var(--radius-lg);padding:0.8rem 1rem;">
+                                    <strong style="color:var(--ob-teal);font-size:0.85rem;">OceanBase seekdb</strong><br>
+                                    <span style="font-size:0.65rem;color:var(--dim);">Metadata · Vector Index · Full-Text · Hybrid Search</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">Comparison: Traditional architecture requires 3 heterogeneous components vs seekdb unified architecture needs only 1 database.</aside>
+            </section>
+
+            <!-- ══ Slide 5 · Docker Compose ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Deploy</span></div>
+                <h2 class="slide-title">Docker Compose One-Click Deployment</h2>
+                <div class="step-list" style="margin-top:1rem;">
+                    <div class="step-item">
+                        <span class="step-num">01</span>
+                        <div class="step-content">
+                            <strong>Clone Dify Repository</strong>
+                            <p><code>git clone https://github.com/langgenius/dify.git && cd dify/docker</code></p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">02</span>
+                        <div class="step-content">
+                            <strong>Copy Environment Template</strong>
+                            <p><code>cp .env.example .env</code></p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">03</span>
+                        <div class="step-content">
+                            <strong>Configure .env (Recommended Config)</strong>
+                            <p>Set seekdb as both MetaDB and Vector Store</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">04</span>
+                        <div class="step-content">
+                            <strong>Launch Services</strong>
+                            <p><code>docker compose up -d</code> — wait for seekdb Healthy, auto-migration follows</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">.env — seekdb as MetaDB + Vector Store (Recommended)</div>
+                    <pre><code class="language-bash"># MetaDB Configuration
+DB_TYPE=mysql
+DB_USERNAME=root
+DB_HOST=seekdb
+DB_PORT=2881
+DB_DATABASE=test
+
+# Vector Store Configuration
+VECTOR_STORE=oceanbase
+OCEANBASE_VECTOR_HOST=seekdb
+OCEANBASE_VECTOR_USER=root
+
+# Launch profile (seekdb only)
+COMPOSE_PROFILES=seekdb</code></pre>
+                </div>
+                <aside class="notes">Recommended: seekdb as both MetaDB and Vector Store. COMPOSE_PROFILES=seekdb starts only necessary containers.</aside>
+            </section>
+
+            <!-- ══ Slide 6 · Three Config Options ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Flexible Config</span></div>
+                <h2 class="slide-title">Three Configuration Options</h2>
+                <div class="grid-2" style="margin-top:1.5rem;">
+                    <div class="callout">
+                        <strong><i class="ri-database-line" style="color:var(--ob-blue);margin-right:4px;"></i> Option 1: seekdb as MetaDB Only</strong>
+                        <div class="code-block" style="margin-top:0.5rem;font-size:0.75rem;">
+                            <pre><code class="language-bash">DB_TYPE=mysql
+DB_HOST=seekdb
+DB_PORT=2881
+DB_DATABASE=test
+# Vector store uses default</code></pre>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-search-line" style="color:var(--ob-teal);margin-right:4px;"></i> Option 2: seekdb as Vector Store Only</strong>
+                        <div class="code-block" style="margin-top:0.5rem;font-size:0.75rem;">
+                            <pre><code class="language-bash">VECTOR_STORE=oceanbase
+OCEANBASE_VECTOR_HOST=seekdb
+OCEANBASE_VECTOR_USER=root
+# MetaDB keeps PostgreSQL</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="callout" style="margin-top:1rem;border-color:var(--ob-teal);background:var(--ob-teal-10);">
+                    <strong><i class="ri-star-line" style="color:var(--ob-teal);margin-right:4px;"></i> Option 3: seekdb as Both MetaDB and Vector Store (Recommended)</strong>
+                    <div class="code-block" style="margin-top:0.5rem;font-size:0.75rem;">
+                        <pre><code class="language-bash">DB_TYPE=mysql
+DB_HOST=seekdb
+DB_PORT=2881
+DB_DATABASE=test
+VECTOR_STORE=oceanbase
+OCEANBASE_VECTOR_HOST=seekdb
+COMPOSE_PROFILES=seekdb</code></pre>
+                    </div>
+                    <p style="font-size:0.8rem;margin-top:0.5rem;">One database for everything: metadata + vectors + full-text indexes, zero operational burden</p>
+                </div>
+                <aside class="notes">Three flexible configuration options. Option 3 (unified) is recommended. COMPOSE_PROFILES=seekdb starts only necessary containers.</aside>
+            </section>
+
+            <!-- ══ Slide 7 · Build AI App ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Practice</span></div>
+                <h2 class="slide-title">Build AI Apps with Dify</h2>
+                <div class="step-list" style="margin-top:1rem;">
+                    <div class="step-item">
+                        <span class="step-num">01</span>
+                        <div class="step-content">
+                            <strong>Configure Model Provider</strong>
+                            <p>Settings → Model Provider → Enter API Key (e.g., Alibaba Cloud Bailian) → Select system inference and embedding models</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">02</span>
+                        <div class="step-content">
+                            <strong>Create Knowledge Base</strong>
+                            <p>Knowledge → Create → Index Mode: "High Quality" → Select Embedding Model → Upload documents → Auto chunking and embedding</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">03</span>
+                        <div class="step-content">
+                            <strong>Create ChatBot App</strong>
+                            <p>Studio → Create Blank App → Chat Assistant → Add Knowledge Base context → Debug and preview</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">04</span>
+                        <div class="step-content">
+                            <strong>Publish App</strong>
+                            <p>Click Publish → Run → Get dedicated app page, shareable with your team</p>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">Four steps to build an AI app: Configure models → Create knowledge base → Build ChatBot → Publish.</aside>
+            </section>
+
+            <!-- ══ Slide 8 · Verification ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Verification</span></div>
+                <h2 class="slide-title">Deployment Verification & Data Observation</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-checkbox-circle-line" style="color:var(--ob-blue);margin-right:4px;"></i> Migration Confirmation</strong>
+                        <p>Check api service logs for <code>Database migration successful!</code> to confirm successful migration</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-test-tube-line" style="color:var(--ob-teal);margin-right:4px;"></i> Vector Capability Test</strong>
+                        <p>Create knowledge base → Upload documents → Observe chunks and indexes → Successful embedding and retrieval confirms configuration</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-terminal-line" style="color:var(--ob-blue);margin-right:4px;"></i> SQL Direct Connection</strong>
+                        <p><code>mysql -h127.0.0.1 -P2881 -uroot -Dtest</code> to view knowledge base schema and vector data</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-bar-chart-line" style="color:var(--ob-teal);margin-right:4px;"></i> Resource Usage</strong>
+                        <p>seekdb container memory stable at ~1GB, runs on 1C2G, handles both relational and vector workloads</p>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Verify Migration Status & Connect to Database</div>
+                    <pre><code class="language-bash"># Check api service logs
+docker logs -f docker-api-1
+
+# Success indicator
+# ✅ Database migration successful!
+
+# SQL direct connection to seekdb
+mysql -h127.0.0.1 -P2881 -uroot@test -p
+
+# View databases
+SHOW DATABASES;
+
+# Switch to dify database
+USE dify;
+
+# View tables
+SHOW TABLES;
+
+# View knowledge base schema
+DESC vector_index_xxx_node;</code></pre>
+                </div>
+                <aside class="notes">Confirm successful migration via logs, observe knowledge base data structure via SQL direct connection to verify vector store configuration.</aside>
+            </section>
+
+            <!-- ══ Slide 9 · Closing ══ -->
+            <section data-background-color="#1a1aff">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <h2 style="color:#fff;font-size:2rem;">Dify + seekdb: One Database for Agentic RAG</h2>
+                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">Unified Storage · Native Hybrid Search · Transactional Consistency · Minimal Operations</p>
+                    <div style="margin-top:2rem;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
+                        <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Metadata</div>
+                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">MySQL Compatible</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Vector Search</div>
+                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">HNSW Index</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Full-Text</div>
+                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">Multi-lang Tokenizer</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.15);border-radius:var(--radius);padding:0.8rem 1.2rem;">
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.7rem;">Minimum Spec</div>
+                            <div style="color:#fff;font-size:0.9rem;font-weight:600;">1C2G</div>
+                        </div>
+                    </div>
+                    <div class="closing-links" style="margin-top:2rem;color:rgba(255,255,255,0.6);">
+                        <a href="https://github.com/oceanbase/seekdb" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/seekdb</a>
+                    </div>
+                </div>
+                <aside class="notes">Summary: Dify v1.10.1 + seekdb achieves unified database — one engine for metadata + vectors + full-text, from deployment to apps with minimal complexity.</aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'fade',
+            backgroundTransition: 'fade',
+            plugins: [RevealNotes, RevealHighlight],
+        });
+    </script>
+</body>
+</html>

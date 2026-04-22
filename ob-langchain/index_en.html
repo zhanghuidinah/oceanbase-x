@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OceanBase × LangChain — Vector Search &amp; Hybrid Retrieval</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="reveal-theme">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/github.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/ob-theme.css">
+</head>
+<body>
+    <div class="lang-switch">
+        <a href="index.html">中文</a>
+        <span>/</span>
+        <a class="active" href="index_en.html">EN</a>
+    </div>
+    <a class="nordic-logo" href="../index_en.html">
+        <img src="../assets/logo.png" alt="OceanBase" class="nordic-logo-img">
+        <span class="nordic-logo-name">OceanBase</span>
+        <span class="nordic-logo-text">OB × LangChain</span>
+    </a>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ══ Slide 1 · Cover ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <h1 style="font-size:2.6rem;line-height:1.1;">OceanBase × LangChain</h1>
+                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">Vector Search &amp; Hybrid Retrieval Integration<br>From pyobvector SDK to Production-Grade RAG Pipelines</p>
+                    <div style="width:48px;height:3px;background:var(--ob-blue);border-radius:2px;margin:2rem 0 1.5rem;"></div>
+                    <div class="author-block" style="align-items:center;margin-top:0;">
+                        <div class="author-name">OceanBase DevRel</div>
+                        <div class="author-meta">Developer Relations @ OceanBase</div>
+                    </div>
+                </div>
+                <aside class="notes">Introduction: OceanBase + LangChain ecosystem integration. Target audience: AI application developers.</aside>
+            </section>
+
+            <!-- ══ Slide 2 · Why OceanBase for AI ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Context</span></div>
+                <h2 class="slide-title">Why AI Apps Need OceanBase</h2>
+                <div class="grid-2" style="margin-top:1.5rem;">
+                    <div class="callout">
+                        <strong><i class="ri-database-2-line" style="color:var(--ob-blue);margin-right:4px;"></i> Data Silo Explosion</strong>
+                        <p>Vectors, JSON, full-text, GIS scattered across engines. Developers forced to stitch MySQL + ES + Pinecone into a Frankenstein architecture.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-refresh-line" style="color:var(--ob-blue);margin-right:4px;"></i> Freshness vs. Scale</strong>
+                        <p>Traditional vector DBs offer "eventual consistency" — stale RAG results. OceanBase guarantees strict ACID: queryable the millisecond data is written.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-code-s-slash-line" style="color:var(--ob-blue);margin-right:4px;"></i> Glue Code Tax</strong>
+                        <p>Merging MySQL + ES + Vector DB results requires 500+ lines of Python. OceanBase does hybrid search in a single SQL query.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-tools-line" style="color:var(--ob-blue);margin-right:4px;"></i> Operational Fatigue</strong>
+                        <p>Multiple clusters, multiple APIs, multiple failure modes — AI apps shouldn't be this complex.</p>
+                    </div>
+                </div>
+                <aside class="notes">Pain points: data silos, consistency, glue code, ops complexity. OceanBase solves all with one engine.</aside>
+            </section>
+
+            <!-- ══ Slide 3 · OceanBase Vector Capabilities ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Capabilities</span></div>
+                <h2 class="slide-title">OceanBase Vector Capabilities</h2>
+                <div class="feature-grid" style="margin-top:1.2rem;">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-search-eye-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Vector Storage &amp; Index</h4>
+                        <p>VECTOR type + HNSW index, L2 / Inner Product / Cosine distance</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-file-search-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Full-Text Search</h4>
+                        <p>Built-in FULLTEXT index, no Elasticsearch needed</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-git-merge-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Hybrid Search</h4>
+                        <p>DBMS_HYBRID_SEARCH: vector + full-text + scalar filter in one query</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-shield-check-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>ACID Transactions</h4>
+                        <p>Scalar, vector, and full-text indexes update atomically — zero inconsistency window</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-braces-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>JSON &amp; GIS</h4>
+                        <p>Semi-structured and spatial data in one engine — full multi-modal coverage</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-plug-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>MySQL Compatible</h4>
+                        <p>Zero-rewrite migration for existing MySQL applications</p>
+                    </div>
+                </div>
+                <aside class="notes">OceanBase V4.3.3+ natively supports vector types and HNSW indexes. Key advantage: one engine for everything.</aside>
+            </section>
+
+            <!-- ══ Slide 4 · pyobvector SDK ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">SDK</span></div>
+                <h2 class="slide-title">pyobvector — Two Python SDK Modes</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-api-line" style="color:var(--ob-blue);margin-right:4px;"></i> Milvus-Compatible Mode</strong>
+                        <p>MilvusLikeClient class — API aligned with Milvus, zero-cost migration.</p>
+                        <div class="code-block" style="margin-top:0.6rem;">
+                            <div class="code-block-title">Python</div>
+                            <pre><code class="language-python">from pyobvector import MilvusLikeClient
+
+client = MilvusLikeClient(
+    uri="127.0.0.1:2881",
+    user="root@test"
+)
+# Create collection + vector index
+client.create_collection(
+    collection_name="docs",
+    schema=schema,
+    index_params=idx_params,
+)</code></pre>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-database-line" style="color:var(--ob-teal);margin-right:4px;"></i> SQLAlchemy Hybrid Mode</strong>
+                        <p>ObVecClient class — vector ops + SQL queries in one, extends SQLAlchemy.</p>
+                        <div class="code-block" style="margin-top:0.6rem;">
+                            <div class="code-block-title">Python</div>
+                            <pre><code class="language-python">from pyobvector import ObVecClient
+from sqlalchemy import func
+
+client = ObVecClient(
+    uri="127.0.0.1:2881",
+    user="root@test"
+)
+# ANN search + scalar filtering
+res = client.ann_search(
+    table_name="docs",
+    vec_data=embedding,
+    vec_column_name="embedding",
+    distance_func=func.l2_distance,
+    topk=5,
+)</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">pyobvector offers two modes: Milvus-compatible (migration-friendly) and SQLAlchemy hybrid (flexible querying). Install: pip install pyobvector</aside>
+            </section>
+
+            <!-- ══ Slide 5 · LangChain Integration ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Integration</span></div>
+                <h2 class="slide-title">langchain-oceanbase — LangChain VectorStore</h2>
+                <div class="step-list" style="margin-top:1rem;">
+                    <div class="step-item">
+                        <span class="step-num">01</span>
+                        <div class="step-content">
+                            <strong>Install Dependencies</strong>
+                            <p><code>pip install langchain-oceanbase pyobvector</code></p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">02</span>
+                        <div class="step-content">
+                            <strong>Initialize OceanBaseVectorStore</strong>
+                            <p>Pass Embedding model + DB connection — auto-creates table and index</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">03</span>
+                        <div class="step-content">
+                            <strong>Add Documents</strong>
+                            <p><code>vectorstore.add_documents(docs)</code> — auto chunk, embed, store</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">04</span>
+                        <div class="step-content">
+                            <strong>Hybrid Retrieval</strong>
+                            <p>Vector similarity + full-text search + scalar filtering, configurable weight fusion</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Python</div>
+                    <pre><code class="language-python">from langchain_oceanbase import OceanBaseVectorStore
+from langchain_openai import OpenAIEmbeddings
+
+vs = OceanBaseVectorStore(
+    embedding=OpenAIEmbeddings(),
+    connection_args={
+        "host": "127.0.0.1", "port": "2881",
+        "user": "root@test", "password": "",
+        "database": "test"
+    },
+)
+
+# Add documents
+vs.add_documents(split_docs)
+
+# Hybrid search
+results = vs.similarity_search(
+    "OceanBase distributed architecture", k=5
+)</code></pre>
+                </div>
+                <aside class="notes">langchain-oceanbase v0.3.3 is on PyPI. Supports Hybrid Search and metadata filtering.</aside>
+            </section>
+
+            <!-- ══ Slide 6 · RAG Pipeline ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">RAG</span></div>
+                <h2 class="slide-title">End-to-End RAG Pipeline</h2>
+                <div class="grid-2" style="margin-top:1rem;">
+                    <div class="callout">
+                        <strong><i class="ri-file-text-line" style="color:var(--ob-blue);margin-right:4px;"></i> Document Ingestion</strong>
+                        <p>LangChain DocumentLoader → TextSplitter → Embeddings → OceanBaseVectorStore</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-search-line" style="color:var(--ob-teal);margin-right:4px;"></i> Hybrid Retrieval</strong>
+                        <p>User Query → Embedding → Vector + Full-text hybrid search → DBMS_HYBRID_SEARCH weighted fusion</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-robot-line" style="color:var(--ob-blue);margin-right:4px;"></i> Answer Generation</strong>
+                        <p>Retriever → Context assembly → LLM (GPT-4 / Qwen / DeepSeek) → Structured output</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-loop-left-line" style="color:var(--ob-teal);margin-right:4px;"></i> Evaluation &amp; Iteration</strong>
+                        <p>LangSmith / RAGAS evaluation → Tune chunk size, retrieval weights, reranker strategy</p>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Python — RAG Chain</div>
+                    <pre><code class="language-python">from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_openai import ChatOpenAI
+
+retriever = vs.as_retriever(search_kwargs={"k": 5})
+llm = ChatOpenAI(model="gpt-4o")
+
+rag_chain = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+rag_chain.invoke("How does OceanBase achieve distributed consistency?")</code></pre>
+                </div>
+                <aside class="notes">Full RAG pipeline: load docs → chunk → embed → store → retrieve → generate. OceanBase replaces Pinecone/Weaviate as VectorStore.</aside>
+            </section>
+
+            <!-- ══ Slide 7 · Hybrid Search Deep Dive ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Hybrid Search</span></div>
+                <h2 class="slide-title">DBMS_HYBRID_SEARCH Deep Dive</h2>
+                <div class="step-list" style="margin-top:1rem;">
+                    <div class="step-item">
+                        <span class="step-num">01</span>
+                        <div class="step-content">
+                            <strong>Scalar Filtering</strong>
+                            <p>WHERE clause narrows scope from millions to thousands</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">02</span>
+                        <div class="step-content">
+                            <strong>Coarse Ranking: Vector + Full-Text</strong>
+                            <p>HNSW vector ANN + FULLTEXT keyword match — low-cost parallel recall</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">03</span>
+                        <div class="step-content">
+                            <strong>Fine Ranking: Reranker</strong>
+                            <p>High-precision re-scoring with configurable vector/full-text weight ratio</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">SQL — Hybrid Search</div>
+                    <pre><code class="language-sql">CALL DBMS_HYBRID_SEARCH(
+  table_name   => 'knowledge_base',
+  query_text   => 'distributed transaction consistency protocol',
+  vector_col   => 'embedding',
+  fulltext_col => 'content',
+  top_k        => 10,
+  alpha        => 0.7   -- vector weight 0.7, full-text weight 0.3
+);</code></pre>
+                </div>
+                <aside class="notes">Alpha controls vector vs full-text weighting. 0.7 = 70% semantic + 30% keyword. Tune per use case.</aside>
+            </section>
+
+            <!-- ══ Slide 8 · Comparison Table ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Comparison</span></div>
+                <h2 class="slide-title">Architecture Comparison: Why OceanBase?</h2>
+                <table style="margin-top:1rem;">
+                    <thead>
+                        <tr>
+                            <th style="width:22%;">Feature</th>
+                            <th style="width:26%;">Classic Stack<br><small>SQL + ES + Vector DB</small></th>
+                            <th style="width:26%;">Specialist Stack<br><small>SQL + Pinecone</small></th>
+                            <th style="width:26%;background:var(--ob-blue-10);">OceanBase<br><small>Unified Engine</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Systems</strong></td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td style="background:var(--ob-blue-10);"><strong>1</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Consistency</strong></td>
+                            <td>Weak / Eventual</td>
+                            <td>No TX guarantee</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Strict ACID</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Search</strong></td>
+                            <td>Strong FT, weak vector</td>
+                            <td>Strong vector, weak FT</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Vector + FT + Scalar</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dev Experience</strong></td>
+                            <td>3x ops + sync debugging</td>
+                            <td>Heavy glue code</td>
+                            <td style="background:var(--ob-blue-10);"><strong>SQL-native, zero glue</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>MySQL Compat</strong></td>
+                            <td>Partial</td>
+                            <td>No</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Full</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">Key selling point: one engine replaces three systems, strict ACID, SQL-native hybrid search.</aside>
+            </section>
+
+            <!-- ══ Slide 9 · Quick Start ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Quick Start</span></div>
+                <h2 class="slide-title">Up and Running in 5 Minutes</h2>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Shell — Docker Launch</div>
+                    <pre><code class="language-bash"># Start OceanBase CE (vector support requires V4.3.3+)
+docker run -d --name ob \
+  -p 2881:2881 \
+  -e OB_MEMORY_LIMIT=6G \
+  oceanbase/oceanbase-ce:4.3.5-lts</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:0.6rem;">
+                    <div class="code-block-title">Shell — Install &amp; Run</div>
+                    <pre><code class="language-bash">pip install langchain-oceanbase pyobvector langchain-openai
+
+# Or use seekdb lightweight edition
+docker run -d --name seekdb \
+  -p 2881:2881 -p 2886:2886 \
+  -v ./seekdb:/var/lib/oceanbase \
+  oceanbase/seekdb:latest</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:0.6rem;">
+                    <div class="code-block-title">Python — Minimal RAG Example</div>
+                    <pre><code class="language-python">from langchain_oceanbase import OceanBaseVectorStore
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+
+vs = OceanBaseVectorStore(
+    embedding=OpenAIEmbeddings(),
+    connection_args={"host":"127.0.0.1","port":"2881",
+                     "user":"root@test","database":"test"},
+)
+vs.add_texts(["OceanBase is a distributed relational database"])
+print(vs.similarity_search("What is OceanBase?", k=1))</code></pre>
+                </div>
+                <aside class="notes">Three steps to run: 1) Docker launch OB 2) pip install 3) Python code. seekdb is lighter, runs on 1C2G.</aside>
+            </section>
+
+            <!-- ══ Slide 10 · Closing ══ -->
+            <section data-background-color="#1a1aff">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <img src="../assets/logo.png" alt="OceanBase" class="closing-logo" style="height:36px; margin-bottom:1.5rem;">
+                    <h2 style="color:#fff;font-size:2rem;">One Engine, Full-Modal Search</h2>
+                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">OceanBase × LangChain: From prototype to production, zero glue code</p>
+                    <div class="closing-links" style="margin-top:2rem;color:rgba(255,255,255,0.6);">
+                        <a href="https://github.com/oceanbase/langchain-oceanbase" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/langchain-oceanbase</a><br>
+                        <a href="https://github.com/oceanbase/pyobvector" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/pyobvector</a><br>
+                        <a href="https://en.oceanbase.com" target="_blank" style="color:rgba(255,255,255,0.8);">en.oceanbase.com</a>
+                    </div>
+                </div>
+                <aside class="notes">Summary: OceanBase provides unified vector storage for the LangChain ecosystem — one engine replacing multiple systems.</aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'fade',
+            backgroundTransition: 'fade',
+            plugins: [RevealNotes, RevealHighlight],
+        });
+    </script>
+</body>
+</html>

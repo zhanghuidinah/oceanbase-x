@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OceanBase X · AI Landscape</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #1a1aff;
+      --teal: #00d4aa;
+      --ghost: #b0afa7;
+      --green: #2aa84a;
+      --dgreen: #1e8e3e;
+      --blue2: #2f7dd1;
+      --lblue: #4aa3df;
+      --gray: #7a7d82;
+      --dgray: #6b6f74;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #0a0a0f;
+      color: #e8e8ed;
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 50px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #e8e8ed; }
+    .brand img { height: 24px; display: block; }
+    .brand-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; color: #fff; letter-spacing: -0.02em; }
+    .brand-divider { width: 1px; height: 12px; background: rgba(255,255,255,0.15); }
+    .brand-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ghost);
+    }
+    .lang-switch {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .lang-switch a { color: rgba(255,255,255,0.35); text-decoration: none; padding: 4px 8px; transition: color 0.15s; }
+    .lang-switch a.active { color: #e8e8ed; }
+    .lang-switch a:hover:not(.active) { color: rgba(255,255,255,0.6); }
+    .lang-switch .sep { color: rgba(255,255,255,0.15); }
+
+    .landscape-canvas {
+      width: 100%; min-height: 100vh;
+      padding: 70px 32px 40px;
+      position: relative;
+    }
+    .landscape-title {
+      text-align: center; margin-bottom: 32px; position: relative; z-index: 2;
+    }
+    .landscape-title h1 {
+      font-size: clamp(24px, 3.5vw, 42px); font-weight: 800;
+      letter-spacing: -0.03em; color: #fff; margin-bottom: 6px;
+    }
+    .landscape-title h1 .ab { color: var(--blue); }
+    .landscape-title h1 .at { color: var(--teal); }
+    .landscape-title p {
+      font-size: 12px; color: rgba(255,255,255,0.4);
+      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em;
+    }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 7fr 3fr;
+      gap: 24px;
+      max-width: 1440px;
+      margin: 0 auto;
+      position: relative; z-index: 2;
+    }
+
+    .land-left { min-width: 0; }
+
+    .flow-legend {
+      display: flex; gap: 20px; justify-content: center; margin-bottom: 14px;
+    }
+    .fl-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; color: rgba(255,255,255,0.35);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .fl-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      animation: flPulse 2s ease-in-out infinite;
+    }
+    .fl-dot.blue { background: var(--blue); box-shadow: 0 0 6px rgba(26,26,255,0.5); }
+    .fl-dot.teal { background: var(--teal); box-shadow: 0 0 6px rgba(0,212,170,0.5); }
+    @keyframes flPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    .arch-stack {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .arch-row {
+      display: grid; grid-template-columns: 140px 1fr;
+      gap: 6px; align-items: stretch;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.3s, opacity 0.3s;
+    }
+    .arch-row.is-active {
+      box-shadow: 0 0 0 2px var(--blue), 0 0 24px rgba(26,26,255,0.12);
+    }
+    .arch-side {
+      display: flex; align-items: center; justify-content: center;
+      padding: 12px 8px; font-weight: 700; font-size: 13px;
+      letter-spacing: 0.04em; color: #fff; text-align: center;
+      cursor: pointer; transition: filter 0.2s, transform 0.15s;
+      user-select: none;
+    }
+    .arch-side:hover { filter: brightness(1.15); }
+    .arch-side .side-icon { font-size: 16px; margin-right: 6px; }
+    .arch-body {
+      display: flex; gap: 8px; padding: 8px 10px;
+      flex-wrap: wrap; align-items: stretch;
+      border-radius: 0 10px 10px 0;
+      transition: background 0.3s;
+    }
+
+    .arch-row.t-green  .arch-side { background: var(--green); }
+    .arch-row.t-green  .arch-body { background: rgba(42,168,74,0.06); border: 1px solid rgba(42,168,74,0.2); border-left: none; }
+    .arch-row.t-gray   .arch-side { background: var(--gray); }
+    .arch-row.t-gray   .arch-body { background: rgba(122,125,130,0.06); border: 1px solid rgba(122,125,130,0.2); border-left: none; }
+    .arch-row.t-blue   .arch-side { background: var(--blue2); }
+    .arch-row.t-blue   .arch-body { background: rgba(47,125,209,0.06); border: 1px solid rgba(47,125,209,0.2); border-left: none; }
+    .arch-row.t-dgreen .arch-side { background: var(--dgreen); }
+    .arch-row.t-dgreen .arch-body { background: rgba(30,142,62,0.06); border: 1px solid rgba(30,142,62,0.2); border-left: none; }
+    .arch-row.t-lblue  .arch-side { background: var(--lblue); }
+    .arch-row.t-lblue  .arch-body { background: rgba(74,163,223,0.05); border: 1px solid rgba(74,163,223,0.18); border-left: none; }
+    .arch-row.t-compute .arch-side { background: var(--dgray); }
+    .arch-row.t-compute .arch-body { background: rgba(107,111,116,0.06); border: 1px solid rgba(107,111,116,0.2); border-left: none; }
+
+    .arch-row.is-active.t-green  { box-shadow: 0 0 0 2px var(--green), 0 0 20px rgba(42,168,74,0.15); }
+    .arch-row.is-active.t-gray   { box-shadow: 0 0 0 2px var(--gray), 0 0 20px rgba(122,125,130,0.15); }
+    .arch-row.is-active.t-blue   { box-shadow: 0 0 0 2px var(--blue2), 0 0 20px rgba(47,125,209,0.15); }
+    .arch-row.is-active.t-dgreen { box-shadow: 0 0 0 2px var(--dgreen), 0 0 20px rgba(30,142,62,0.15); }
+    .arch-row.is-active.t-lblue  { box-shadow: 0 0 0 2px var(--lblue), 0 0 20px rgba(74,163,223,0.15); }
+    .arch-row.is-active.t-compute{ box-shadow: 0 0 0 2px var(--dgray), 0 0 20px rgba(107,111,116,0.15); }
+
+    .arch-row.is-dim { opacity: 0.45; }
+    .arch-row.is-dim:hover { opacity: 0.75; }
+    .arch-row.is-dim.is-active { opacity: 1; }
+
+    .arch-chip {
+      flex: 1 1 auto; min-width: 90px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 10px 12px; border-radius: 7px;
+      font-size: 12px; font-weight: 600; color: #fff; text-align: center;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+      cursor: pointer; user-select: none;
+    }
+    .arch-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); filter: brightness(1.12); }
+    .arch-chip.is-focused { transform: translateY(-2px) scale(1.04); box-shadow: 0 0 0 2px #fff, 0 6px 20px rgba(0,0,0,0.35); filter: brightness(1.2); z-index: 5; }
+    .arch-chip.c-green  { background: var(--green); }
+    .arch-chip.c-gray   { background: var(--gray); }
+    .arch-chip.c-blue   { background: var(--blue2); }
+    .arch-chip.c-dgreen { background: var(--dgreen); }
+    .arch-chip.c-lblue  { background: var(--lblue); }
+    .arch-chip.c-dgray  { background: var(--dgray); }
+    .arch-chip.c-dots   { background: transparent; color: rgba(255,255,255,0.4); font-size: 16px; cursor: default; }
+    .arch-chip.c-dots:hover { transform: none; box-shadow: none; filter: none; }
+    .arch-chip .chip-sub { font-size: 10px; opacity: 0.7; margin-top: 2px; font-weight: 400; }
+
+    .flow-conn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 148px;
+      height: 28px;
+    }
+    .flow-rail {
+      position: relative;
+      width: 16px;
+      height: 100%;
+    }
+    .fr-line {
+      position: absolute;
+      left: 3px; width: 1px; top: 0; bottom: 0;
+      background: rgba(26,26,255,0.1);
+    }
+    .fr-line2 {
+      position: absolute;
+      right: 3px; width: 1px; top: 0; bottom: 0;
+      background: rgba(0,212,170,0.1);
+    }
+    .fr-dot {
+      position: absolute;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+    .fr-dot.q {
+      left: 1px;
+      background: var(--blue);
+      box-shadow: 0 0 8px rgba(26,26,255,0.6);
+      animation: flowQ 2.2s linear infinite;
+    }
+    .fr-dot.r {
+      right: 1px;
+      background: var(--teal);
+      box-shadow: 0 0 8px rgba(0,212,170,0.6);
+      animation: flowR 2.2s linear infinite;
+    }
+    @keyframes flowQ {
+      0%   { top: -5px; opacity: 0; }
+      12%  { opacity: 1; }
+      88%  { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+    @keyframes flowR {
+      0%   { top: 100%; opacity: 0; }
+      12%  { opacity: 1; }
+      88%  { opacity: 1; }
+      100% { top: -5px; opacity: 0; }
+    }
+    .flow-label {
+      font-size: 9px;
+      color: rgba(255,255,255,0.22);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .flow-conn.is-gate {
+      margin-left: 0;
+      justify-content: center;
+      padding: 5px 0;
+      gap: 14px;
+    }
+    .flow-conn.is-gate::before,
+    .flow-conn.is-gate::after {
+      content: '';
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(26,26,255,0.18), transparent);
+    }
+    .zone-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 3px 14px;
+      border-radius: 4px;
+    }
+    .zone-tag.app   { color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+    .zone-tag.engine { color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.02); }
+
+    .focus-panel {
+      margin-top: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 24px;
+      min-height: 80px;
+      transition: border-color 0.3s;
+    }
+    .focus-panel.has-focus { border-color: rgba(26,26,255,0.3); }
+    .focus-panel-header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    }
+    .focus-panel-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .focus-panel-title { font-size: 16px; font-weight: 700; color: #fff; }
+    .focus-panel-layer {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.08em; color: rgba(255,255,255,0.4);
+      margin-left: auto;
+    }
+    .focus-panel-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+    .focus-panel-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .focus-tag {
+      padding: 4px 12px; border-radius: 999px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      font-size: 11px; color: rgba(255,255,255,0.6);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .focus-placeholder {
+      color: rgba(255,255,255,0.25); font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .land-right { min-width: 0; }
+    .eco-panel {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 20px;
+      position: sticky; top: 70px;
+    }
+    .eco-panel-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .eco-panel-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #fff;
+    }
+    .eco-panel-title { font-size: 15px; font-weight: 800; color: #fff; }
+    .eco-panel-sub {
+      font-size: 10px; color: rgba(255,255,255,0.35);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.06em; margin-bottom: 16px;
+    }
+    .eco-section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); margin-bottom: 8px; margin-top: 16px;
+    }
+    .eco-section-label:first-of-type { margin-top: 0; }
+    .eco-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 6px;
+      text-decoration: none; color: inherit;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .eco-item:hover {
+      border-color: var(--blue); background: rgba(26,26,255,0.06);
+      transform: translateX(3px);
+    }
+    .eco-item.is-active {
+      border-color: var(--blue); background: rgba(26,26,255,0.1);
+      box-shadow: 0 0 12px rgba(26,26,255,0.1);
+    }
+    .eco-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .eco-dot.blue { background: var(--blue); }
+    .eco-dot.teal { background: var(--teal); }
+    .eco-dot.green { background: var(--green); }
+    .eco-dot.gray { background: var(--gray); }
+    .eco-info { flex: 1; min-width: 0; }
+    .eco-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .eco-desc { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .eco-arrow { color: rgba(255,255,255,0.2); font-size: 14px; transition: color 0.15s, transform 0.15s; }
+    .eco-item:hover .eco-arrow { color: var(--blue); transform: translateX(2px); }
+
+    .site-footer {
+      padding: 32px 40px; margin-top: 40px;
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.06em; color: rgba(255,255,255,0.2);
+      flex-wrap: wrap;
+    }
+    .site-footer a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.15s; }
+    .site-footer a:hover { color: rgba(255,255,255,0.7); }
+    .site-footer .sep { color: rgba(255,255,255,0.1); }
+
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 48px 48px; pointer-events: none; z-index: 0;
+    }
+    .bg-glow {
+      position: fixed; width: 600px; height: 600px; border-radius: 50%;
+      filter: blur(120px); pointer-events: none; z-index: 0;
+    }
+    .bg-glow.blue { top: 30%; left: 30%; background: rgba(26,26,255,0.06); }
+    .bg-glow.teal { top: 55%; left: 60%; background: rgba(0,212,170,0.04); }
+
+    @media (max-width: 1024px) {
+      .split-layout { grid-template-columns: 1fr; gap: 20px; }
+      .eco-panel { position: static; }
+    }
+    @media (max-width: 768px) {
+      .top-bar { padding: 0 16px; }
+      .landscape-canvas { padding: 62px 12px 20px; }
+      .landscape-title { margin-bottom: 20px; }
+      .arch-row { grid-template-columns: 1fr; }
+      .arch-side { border-radius: 8px 8px 0 0; padding: 8px; font-size: 12px; }
+      .arch-body { border-radius: 0 0 8px 8px; }
+      .arch-chip { min-width: 70px; font-size: 11px; padding: 8px 8px; }
+      .flow-conn { margin-left: 0; justify-content: center; }
+      .flow-conn.is-gate { gap: 8px; }
+      .zone-tag { font-size: 8px; padding: 2px 8px; }
+      .eco-panel { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow blue"></div>
+  <div class="bg-glow teal"></div>
+
+  <header class="top-bar">
+    <a class="brand" href="index_en.html">
+      <img src="assets/logo.png" alt="OceanBase">
+      <span class="brand-name">OceanBase</span>
+      <span class="brand-divider"></span>
+      <span class="brand-tag">AI Landscape</span>
+    </a>
+    <nav class="lang-switch">
+      <a href="index_zh.html">中文</a>
+      <span class="sep">/</span>
+      <a class="active" href="index_en.html">EN</a>
+    </nav>
+  </header>
+
+  <main class="landscape-canvas">
+    <div class="landscape-title">
+      <h1>OceanBase <span class="ab">AI</span> <span class="at">Ecosystem</span></h1>
+      <p>Vector Database · Full-Stack AI Infrastructure</p>
+    </div>
+
+    <div class="split-layout">
+      <div class="land-left">
+
+        <div class="flow-legend">
+          <span class="fl-item"><span class="fl-dot blue"></span>Query Request</span>
+          <span class="fl-item"><span class="fl-dot teal"></span>Search Result</span>
+        </div>
+
+        <div class="arch-stack" id="archStack">
+
+          <!-- Layer 1 -->
+          <div class="arch-row t-green" data-layer="1" data-layer-name="Applications">
+            <div class="arch-side"><i class="ri-apps-2-line side-icon"></i>Applications</div>
+            <div class="arch-body">
+              <div class="arch-chip c-green" data-focus="rag">RAG<span class="chip-sub">Retrieval-Augmented Generation</span></div>
+              <div class="arch-chip c-green" data-focus="semantic">Semantic Search<span class="chip-sub">Vector Similarity</span></div>
+              <div class="arch-chip c-green" data-focus="multimodal">Multi-Modal Search<span class="chip-sub">Text · Image · Audio</span></div>
+              <div class="arch-chip c-green" data-focus="agent">AI Agents<span class="chip-sub">Tool Use · Memory</span></div>
+            </div>
+          </div>
+
+          <div class="flow-conn">
+            <div class="flow-rail">
+              <div class="fr-line"></div><div class="fr-line2"></div>
+              <span class="fr-dot q" style="animation-delay:0s"></span>
+              <span class="fr-dot q" style="animation-delay:1.1s"></span>
+              <span class="fr-dot r" style="animation-delay:0.5s"></span>
+              <span class="fr-dot r" style="animation-delay:1.6s"></span>
+            </div>
+            <span class="flow-label">User Query ↓ · AI Response ↑</span>
+          </div>
+
+          <!-- Layer 2 -->
+          <div class="arch-row t-blue" data-layer="2" data-layer-name="AI Ecosystem">
+            <div class="arch-side"><i class="ri-plug-line side-icon"></i>AI Ecosystem</div>
+            <div class="arch-body">
+              <a class="arch-chip c-blue" href="ob-langchain/index.html" data-focus="langchain">LangChain</a>
+              <div class="arch-chip c-blue" data-focus="llamaindex">LlamaIndex</div>
+              <div class="arch-chip c-blue" data-focus="fastgpt">FastGPT</div>
+              <a class="arch-chip c-blue" href="ob-dify/index.html" data-focus="dify">Dify</a>
+              <div class="arch-chip c-blue" data-focus="dbgpt">DB-GPT</div>
+              <div class="arch-chip c-blue" data-focus="springai">Spring AI</div>
+              <a class="arch-chip c-blue" href="ob-ragflow/index.html" data-focus="ragflow">RAGFlow</a>
+              <div class="arch-chip c-blue" data-focus="autogen">AutoGen</div>
+              <div class="arch-chip c-blue" data-focus="crewai">CrewAI</div>
+              <div class="arch-chip c-dots">...</div>
+            </div>
+          </div>
+
+          <div class="flow-conn">
+            <div class="flow-rail">
+              <div class="fr-line"></div><div class="fr-line2"></div>
+              <span class="fr-dot q" style="animation-delay:0.2s"></span>
+              <span class="fr-dot q" style="animation-delay:1.3s"></span>
+              <span class="fr-dot r" style="animation-delay:0.7s"></span>
+              <span class="fr-dot r" style="animation-delay:1.8s"></span>
+            </div>
+            <span class="flow-label">Framework API ↓ · Structured Result ↑</span>
+          </div>
+
+          <!-- Layer 3 -->
+          <div class="arch-row t-gray" data-layer="3" data-layer-name="SDK">
+            <div class="arch-side"><i class="ri-code-s-slash-line side-icon"></i>SDK</div>
+            <div class="arch-body">
+              <div class="arch-chip c-gray" style="flex:1;" data-focus="pysdk">Python SDK<span class="chip-sub">pyobvector · pyseekdb</span></div>
+              <div class="arch-chip c-gray" style="flex:1;" data-focus="javasdk">Java SDK<span class="chip-sub">Connector/J · Spring Data</span></div>
+              <div class="arch-chip c-gray" style="flex:1.2;" data-focus="mysqlclient">MySQL Clients<span class="chip-sub">Go · Rust · Node.js · PHP</span></div>
+            </div>
+          </div>
+
+          <!-- Zone boundary -->
+          <div class="flow-conn is-gate">
+            <span class="zone-tag app">App Layer</span>
+            <div class="flow-rail">
+              <div class="fr-line"></div><div class="fr-line2"></div>
+              <span class="fr-dot q" style="animation-delay:0.1s"></span>
+              <span class="fr-dot r" style="animation-delay:0.6s"></span>
+            </div>
+            <span class="zone-tag engine">Engine Layer</span>
+          </div>
+
+          <!-- Layer 4 -->
+          <div class="arch-row t-blue" data-layer="4" data-layer-name="Hybrid Search">
+            <div class="arch-side"><i class="ri-search-line side-icon"></i>Hybrid Search</div>
+            <div class="arch-body">
+              <div class="arch-chip c-blue" style="flex:1.2;" data-focus="scalarvec">Scalar+Vector Filter<span class="chip-sub">Pre / In / Post-filter</span></div>
+              <div class="arch-chip c-blue" style="flex:1;" data-focus="multivec">Multi-Vector<span class="chip-sub">Parent-Child Retrieval</span></div>
+              <div class="arch-chip c-blue" style="flex:1;" data-focus="ftvec">Full-Text+Vector<span class="chip-sub">BM25 + ANN Fusion</span></div>
+            </div>
+          </div>
+
+          <div class="flow-conn">
+            <div class="flow-rail">
+              <div class="fr-line"></div><div class="fr-line2"></div>
+              <span class="fr-dot q" style="animation-delay:0.3s"></span>
+              <span class="fr-dot r" style="animation-delay:0.8s"></span>
+            </div>
+            <span class="flow-label">Search Strategy ↓ · Candidate Set ↑</span>
+          </div>
+
+          <!-- Layer 5 -->
+          <div class="arch-row t-dgreen is-dim" data-layer="5" data-layer-name="Retrieval Paths">
+            <div class="arch-side"><i class="ri-route-line side-icon"></i>Retrieval</div>
+            <div class="arch-body">
+              <div class="arch-chip c-dgreen" data-focus="dense">Dense Vector<span class="chip-sub">Embedding</span></div>
+              <div class="arch-chip c-dgreen" data-focus="sparse">Sparse Vector<span class="chip-sub">SPLADE</span></div>
+              <div class="arch-chip c-dgreen" data-focus="fulltext">Full-Text<span class="chip-sub">BM25</span></div>
+            </div>
+          </div>
+
+          <div class="flow-conn">
+            <div class="flow-rail">
+              <div class="fr-line"></div><div class="fr-line2"></div>
+              <span class="fr-dot q" style="animation-delay:0.4s"></span>
+              <span class="fr-dot r" style="animation-delay:0.9s"></span>
+            </div>
+            <span class="flow-label">Index Lookup ↓ · Top-K ↑</span>
+          </div>
+
+          <!-- Layer 6 -->
+          <div class="arch-row t-lblue is-dim" data-layer="6" data-layer-name="Algorithms">
+            <div class="arch-side"><i class="ri-cpu-line side-icon"></i>Algorithms</div>
+            <div class="arch-body">
+              <div class="arch-chip c-lblue" style="flex:1;" data-focus="hnsw">HNSW In-Memory<span class="chip-sub">FLAT · SQ8 · BQ</span></div>
+              <div class="arch-chip c-lblue" style="flex:1;" data-focus="ivf">IVF On-Disk<span class="chip-sub">FLAT · PQ</span></div>
+            </div>
+          </div>
+
+          <div class="flow-conn">
+            <div class="flow-rail">
+              <div class="fr-line"></div><div class="fr-line2"></div>
+              <span class="fr-dot q" style="animation-delay:0.5s"></span>
+              <span class="fr-dot r" style="animation-delay:1.0s"></span>
+            </div>
+            <span class="flow-label">Distance Calc ↓ · Score ↑</span>
+          </div>
+
+          <!-- Layer 7 -->
+          <div class="arch-row t-compute is-dim" data-layer="7" data-layer-name="Compute">
+            <div class="arch-side"><i class="ri-server-line side-icon"></i>Compute</div>
+            <div class="arch-body">
+              <div class="arch-chip c-dgray" style="flex:1;" data-focus="compute">Cross-Platform<span class="chip-sub">GPU · X86 · ARM</span></div>
+            </div>
+          </div>
+        </div><!-- /arch-stack -->
+
+        <div class="focus-panel" id="focusPanel">
+          <div id="focusContent">
+            <span class="focus-placeholder"><i class="ri-cursor-line"></i> Click a landscape node to see details</span>
+          </div>
+        </div>
+      </div><!-- /land-left -->
+
+      <div class="land-right">
+        <div class="eco-panel">
+          <div class="eco-panel-head">
+            <div class="eco-panel-icon"><i class="ri-rocket-2-line"></i></div>
+            <div class="eco-panel-title">OB AI Ecosystem</div>
+          </div>
+          <div class="eco-panel-sub">OceanBase AI Integrations</div>
+
+          <div class="eco-section-label">Integration Frameworks</div>
+          <a class="eco-item" href="ob-langchain/index.html" data-eco="langchain">
+            <div class="eco-dot blue"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x LangChain</div>
+              <div class="eco-desc">RAG · Agent · VectorStore</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </a>
+          <a class="eco-item" href="ob-dify/index.html" data-eco="dify">
+            <div class="eco-dot teal"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x Dify</div>
+              <div class="eco-desc">Workflow · Knowledge · Plugin</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </a>
+          <a class="eco-item" href="ob-ragflow/index.html" data-eco="ragflow">
+            <div class="eco-dot blue"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x RAGFlow</div>
+              <div class="eco-desc">PowerRAG · Multi-Modal · Memory</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </a>
+          <div class="eco-item" data-eco="llamaindex">
+            <div class="eco-dot green"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x LlamaIndex</div>
+              <div class="eco-desc">Data Framework · Index · Query</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+          <div class="eco-item" data-eco="springai">
+            <div class="eco-dot gray"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x Spring AI</div>
+              <div class="eco-desc">Java · VectorStore · Embedding</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+          <div class="eco-item" data-eco="dbgpt">
+            <div class="eco-dot teal"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x DB-GPT</div>
+              <div class="eco-desc">Text2SQL · KBQA · Agent</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+          <div class="eco-item" data-eco="fastgpt">
+            <div class="eco-dot blue"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x FastGPT</div>
+              <div class="eco-desc">Knowledge QA · Workflow</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+
+          <div class="eco-section-label">SDK &amp; Tools</div>
+          <div class="eco-item" data-eco="pysdk">
+            <div class="eco-dot green"></div>
+            <div class="eco-info">
+              <div class="eco-name">pyobvector</div>
+              <div class="eco-desc">Python SDK · Milvus Compatible</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+          <div class="eco-item" data-eco="pysdk">
+            <div class="eco-dot green"></div>
+            <div class="eco-info">
+              <div class="eco-name">pyseekdb</div>
+              <div class="eco-desc">Python SDK · Schemaless</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+          <div class="eco-item" data-eco="javasdk">
+            <div class="eco-dot gray"></div>
+            <div class="eco-info">
+              <div class="eco-name">Connector/J</div>
+              <div class="eco-desc">JDBC · MySQL Protocol</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+
+          <div class="eco-section-label">Multi-Agent</div>
+          <div class="eco-item" data-eco="autogen">
+            <div class="eco-dot blue"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x AutoGen</div>
+              <div class="eco-desc">Multi-Agent · Conversation</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+          <div class="eco-item" data-eco="crewai">
+            <div class="eco-dot teal"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB x CrewAI</div>
+              <div class="eco-desc">Agent Orchestration</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+
+          <div class="eco-section-label">Benchmark</div>
+          <div class="eco-item" data-eco="benchmark">
+            <div class="eco-dot green"></div>
+            <div class="eco-info">
+              <div class="eco-name">OB Vector Benchmark</div>
+              <div class="eco-desc">ANN Benchmark · Performance</div>
+            </div>
+            <i class="ri-arrow-right-s-line eco-arrow"></i>
+          </div>
+        </div>
+      </div><!-- /land-right -->
+    </div><!-- /split-layout -->
+
+    <footer class="site-footer">
+      <a href="https://github.com/oceanbase" target="_blank">@oceanbase</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/oceanbase/ob-x" target="_blank">ob-x</a>
+      <span class="sep">·</span>
+      <a href="https://en.oceanbase.com" target="_blank">oceanbase.com</a>
+      <span class="sep">·</span>
+      <a href="https://open.oceanbase.com" target="_blank">Open Source</a>
+      <span class="sep">·</span>
+      <span>&copy; 2026 OceanBase</span>
+    </footer>
+  </main>
+
+  <script>
+  (function() {
+    var focusData = {
+      rag:        { title: 'RAG (Retrieval-Augmented Generation)', layer: 'L1 Applications', color: '#2aa84a', desc: 'RAG combines LLMs with external knowledge bases, using vector retrieval to recall relevant document chunks and inject them into the prompt for more accurate, grounded responses. OceanBase provides high-performance vector indexes and hybrid scalar-vector search, making it an ideal storage backend for RAG.', tags: ['VectorStore', 'Embedding', 'Rerank', 'Chunk', 'Context Window'] },
+      semantic:   { title: 'Semantic Search', layer: 'L1 Applications', color: '#2aa84a', desc: 'Vector similarity-based semantic search understands query intent beyond keyword matching. OceanBase HNSW/IVF indexes support millisecond-level ANN retrieval, combined with scalar filtering for precise semantic + structured hybrid queries.', tags: ['ANN', 'Cosine Similarity', 'L2', 'Inner Product'] },
+      multimodal: { title: 'Multi-Modal Search', layer: 'L1 Applications', color: '#2aa84a', desc: 'Unified vector encoding and cross-modal retrieval for text, images, audio and more. Generate multi-modal embeddings via CLIP, ImageBind, etc., store in OceanBase vector columns for efficient retrieval.', tags: ['CLIP', 'ImageBind', 'Cross-Modal', 'Multi-Vector'] },
+      agent:      { title: 'AI Agents', layer: 'L1 Applications', color: '#2aa84a', desc: 'AI Agents use tool calls, memory management, and planning/reasoning to complete complex tasks. OceanBase serves as a long-term memory and knowledge retrieval backend, providing persistent vector storage with transaction guarantees.', tags: ['Tool Use', 'Memory', 'Planning', 'ReAct'] },
+      langchain:  { title: 'LangChain', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'LangChain is the most popular LLM application framework. OceanBase provides an official langchain-oceanbase integration (github.com/oceanbase/langchain-oceanbase), offering VectorStore implementation with HNSW/IVF indexes, metadata filtering, and full-text search support.', tags: ['VectorStore', 'Retriever', 'Agent', 'Chain'] },
+      llamaindex: { title: 'LlamaIndex', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'LlamaIndex is a data indexing framework connecting private data to LLMs. OceanBase integrates via llama-index-vector-stores-oceanbase (part of LlamaHub), using pyobvector for high-performance vector storage with metadata filtering and hybrid search.', tags: ['Index', 'Query Engine', 'Router', 'Sub-Question'] },
+      fastgpt:    { title: 'FastGPT', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'FastGPT is an LLM-powered knowledge QA platform with visual workflow orchestration. OceanBase can serve as its database backend, providing vector storage and retrieval capabilities for large-scale knowledge base operations.', tags: ['Knowledge QA', 'Workflow', 'API'] },
+      dify:       { title: 'Dify', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'Dify is an open-source LLM app platform with visual workflows. Dify officially supports OceanBase as vector store backend (github.com/langgenius/dify/issues/9982).', tags: ['Workflow', 'Knowledge Base', 'Plugin', 'RAG'] },
+      dbgpt:      { title: 'DB-GPT', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'DB-GPT is a database-centric AI Agent framework supporting Text2SQL, KBQA, and Data Agent. OceanBase is officially supported as both datasource provider and RAG storage (via storage_obvector), enabling unified business database and vector storage.', tags: ['Text2SQL', 'KBQA', 'Data Agent', 'AWEL'] },
+      springai:   { title: 'Alibaba Spring AI', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'Spring AI is a Java AI abstraction framework. The spring-ai-alibaba project (community/vector-stores/spring-ai-alibaba-starter-oceanbase-store) provides OceanBase VectorStore support, enabling Java developers to use vector search via Spring Data patterns.', tags: ['Java', 'VectorStore', 'Embedding', 'Chat Client'] },
+      ragflow:    { title: 'RAGFlow', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'RAGFlow is an open-source RAG engine focused on deep document understanding. OceanBase powers the PowerRAG platform (github.com/oceanbase/powerrag), a production-grade RAG application built on OceanBase\'s multi-modal database architecture (SQL + NoSQL).', tags: ['DeepDoc', 'PowerRAG', 'Multi-Modal', 'Chunk'] },
+      autogen:    { title: 'AutoGen', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'AutoGen is Microsoft\'s open-source multi-agent conversation framework. OceanBase can serve as its knowledge base backend, providing persistent vector storage for agent memory, conversation history, and retrieval-augmented generation.', tags: ['Multi-Agent', 'Conversation', 'Code Execution'] },
+      crewai:     { title: 'CrewAI', layer: 'L2 AI Ecosystem', color: '#2f7dd1', desc: 'CrewAI is a role-driven multi-agent orchestration framework. OceanBase can serve as its long-term memory and knowledge retrieval backend, providing distributed vector storage for agent collaboration and task context persistence.', tags: ['Agent Orchestration', 'Role-Based', 'Tool Use'] },
+      pysdk:      { title: 'Python SDK', layer: 'L3 SDK', color: '#7a7d82', desc: 'pyobvector provides a Milvus-compatible Python interface with SQLAlchemy ORM support; pyseekdb offers lightweight schemaless access. Together they cover rapid prototyping to production deployment.', tags: ['pyobvector', 'pyseekdb', 'SQLAlchemy', 'pip install'] },
+      javasdk:    { title: 'Java SDK', layer: 'L3 SDK', color: '#7a7d82', desc: 'Through MySQL-compatible JDBC Connector/J and Spring Data integration, Java applications can directly use SQL to access vector search capabilities without additional drivers.', tags: ['Connector/J', 'Spring Data', 'JDBC', 'MySQL Protocol'] },
+      mysqlclient:{ title: 'MySQL Multi-Language Clients', layer: 'L3 SDK', color: '#7a7d82', desc: 'OceanBase is MySQL-protocol compatible. MySQL drivers for Go, Rust, Node.js, PHP and more can connect directly, executing vector search and full-text queries via SQL.', tags: ['Go', 'Rust', 'Node.js', 'PHP', 'MySQL Compatible'] },
+      scalarvec:  { title: 'Scalar+Vector Filter', layer: 'L4 Hybrid Search', color: '#2f7dd1', desc: 'Apply scalar conditions alongside vector search. Supports Pre-filter (filter then search), In-filter (filter during search), and Post-filter (search then filter) strategies — the engine auto-selects the optimal path. Developers just write SQL WHERE clauses.', tags: ['Pre-filter', 'In-filter', 'Post-filter', 'Brute-force'] },
+      multivec:   { title: 'Multi-Vector', layer: 'L4 Hybrid Search', color: '#2f7dd1', desc: 'Store multiple vectors per record (e.g., multiple chunk embeddings per document). Search returns the parent record by the most similar vector. Ideal for long-document chunked retrieval.', tags: ['Multi-Embedding', 'Parent-Child', 'Chunk Retrieval'] },
+      ftvec:      { title: 'Full-Text+Vector', layer: 'L4 Hybrid Search', color: '#2f7dd1', desc: 'Combine full-text index (BM25) and vector index (ANN) for hybrid search, merging results via RRF or weighted fusion. Balances keyword precision with semantic understanding.', tags: ['BM25 + ANN', 'RRF Fusion', 'Hybrid Score'] },
+      dense:      { title: 'Dense Vector', layer: 'L5 Retrieval', color: '#1e8e3e', desc: 'Encode text into high-dimensional dense vectors via Dense Embedding, then perform approximate nearest neighbor search via HNSW/IVF indexes. Strong semantic understanding.', tags: ['Dense Embedding', 'HNSW', 'IVF'] },
+      sparse:     { title: 'Sparse Vector', layer: 'L5 Retrieval', color: '#1e8e3e', desc: 'Generate sparse vectors via SPLADE, BGE-M3, etc. Balances lexical matching with semantic expansion.', tags: ['SPLADE', 'BGE-M3', 'Learned Sparse'] },
+      fulltext:   { title: 'Full-Text', layer: 'L5 Retrieval', color: '#1e8e3e', desc: 'Inverted index-based full-text search (BM25) with tokenization and phrase queries, complementing vector retrieval.', tags: ['BM25', 'Full-Text', 'Tokenizer'] },
+      hnsw:       { title: 'HNSW In-Memory Index', layer: 'L6 Algorithms', color: '#4aa3df', desc: 'HNSW-based in-memory vector index supporting FLAT (full precision), SQ8 (scalar quantization, 75% memory reduction), and BQ (binary quantization, 97% memory reduction). Choose based on data scale and recall requirements.', tags: ['HNSW_FLAT', 'HNSW_SQ8', 'HNSW_BQ', 'Memory-Based'] },
+      ivf:        { title: 'IVF On-Disk Index', layer: 'L6 Algorithms', color: '#4aa3df', desc: 'IVF-based on-disk vector index supporting FLAT (full precision) and PQ (product quantization) modes. Ideal for large-scale datasets that cannot fit entirely in memory.', tags: ['IVF_FLAT', 'IVF_PQ', 'Disk-Based', 'Billion-Scale'] },
+      compute:    { title: 'Cross-Platform Compute', layer: 'L7 Compute', color: '#6b6f74', desc: 'OceanBase vector engine supports GPU (CUDA/ROCm), X86 (AVX-512/SSE), and ARM (NEON/SVE) acceleration, automatically selecting the optimal SIMD instruction path for the current platform.', tags: ['GPU', 'X86', 'ARM', 'SIMD'] },
+    };
+
+    var stack = document.getElementById('archStack');
+    var panel = document.getElementById('focusPanel');
+    var content = document.getElementById('focusContent');
+    var allRows = stack.querySelectorAll('.arch-row');
+    var allChips = stack.querySelectorAll('.arch-chip:not(.c-dots)');
+
+    var currentFocus = null;
+
+    function clearFocus() {
+      allRows.forEach(function(r) { r.classList.remove('is-active'); });
+      allChips.forEach(function(c) { c.classList.remove('is-focused'); });
+      document.querySelectorAll('.eco-item.is-active').forEach(function(e) { e.classList.remove('is-active'); });
+    }
+
+    function setFocus(key) {
+      var data = focusData[key];
+      if (!data) return;
+      clearFocus();
+      currentFocus = key;
+
+      var chip = stack.querySelector('[data-focus="' + key + '"]');
+      if (chip) {
+        chip.classList.add('is-focused');
+        var row = chip.closest('.arch-row');
+        if (row) row.classList.add('is-active');
+      }
+
+      panel.classList.add('has-focus');
+      var tagsHtml = data.tags.map(function(t) { return '<span class="focus-tag">' + t + '</span>'; }).join('');
+      content.innerHTML =
+        '<div class="focus-panel-header">' +
+          '<div class="focus-panel-dot" style="background:' + data.color + ';"></div>' +
+          '<div class="focus-panel-title">' + data.title + '</div>' +
+          '<div class="focus-panel-layer">' + data.layer + '</div>' +
+        '</div>' +
+        '<div class="focus-panel-desc">' + data.desc + '</div>' +
+        '<div class="focus-panel-tags">' + tagsHtml + '</div>';
+
+      var ecoItem = document.querySelector('.eco-item[data-eco="' + key + '"]');
+      if (ecoItem) ecoItem.classList.add('is-active');
+    }
+
+    allChips.forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        var key = el.getAttribute('data-focus');
+        if (!key) return;
+        if (el.tagName === 'A') {
+          if (currentFocus === key) return;
+          e.preventDefault();
+        }
+        setFocus(key);
+      });
+    });
+
+    document.querySelectorAll('.eco-item[data-eco]').forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        var key = item.getAttribute('data-eco');
+        if (key && focusData[key]) {
+          // For <a> items with href, first click = focus, second click = navigate
+          if (item.tagName === 'A' && item.getAttribute('href')) {
+            if (currentFocus !== key) e.preventDefault();
+          }
+          setFocus(key);
+          var chip = stack.querySelector('[data-focus="' + key + '"]');
+          if (chip) chip.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    allRows.forEach(function(row) {
+      var side = row.querySelector('.arch-side');
+      if (side) {
+        side.addEventListener('click', function() {
+          var firstChip = row.querySelector('[data-focus]');
+          if (firstChip) setFocus(firstChip.getAttribute('data-focus'));
+        });
+      }
+    });
+
+    setFocus('rag');
+  })();
+  </script>
+</body>
+</html>

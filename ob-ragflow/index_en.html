@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OceanBase × RAGFlow — PowerRAG: Multi-Modal RAG</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="reveal-theme">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/github.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/ob-theme.css">
+</head>
+<body>
+    <div class="lang-switch">
+        <a href="index.html">中文</a>
+        <span>/</span>
+        <a class="active" href="index_en.html">EN</a>
+    </div>
+    <a class="nordic-logo" href="../index_en.html">
+        <img src="../assets/logo.png" alt="OceanBase" class="nordic-logo-img">
+        <span class="nordic-logo-name">OceanBase</span>
+        <span class="nordic-logo-text">OB × RAGFlow</span>
+    </a>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ══ Slide 1 · Cover ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <h1 style="font-size:2.6rem;line-height:1.1;">OceanBase × RAGFlow</h1>
+                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">PowerRAG: Multi-Modal Retrieval-Augmented Generation<br>Enterprise-Grade RAG Solutions Built on OceanBase</p>
+                    <div style="width:48px;height:3px;background:var(--ob-blue);border-radius:2px;margin:2rem 0 1.5rem;"></div>
+                    <div class="author-block" style="align-items:center;margin-top:0;">
+                        <div class="author-name">OceanBase DevRel</div>
+                        <div class="author-meta">Developer Relations @ OceanBase</div>
+                    </div>
+                </div>
+                <aside class="notes">Introduction: PowerRAG — enterprise-grade RAG platform built on RAGFlow + OceanBase.</aside>
+            </section>
+
+            <!-- ══ Slide 2 · RAGFlow Overview ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">RAGFlow</span></div>
+                <h2 class="slide-title">RAGFlow — Deep Document Understanding RAG Engine</h2>
+                <div class="feature-grid" style="margin-top:1.2rem;">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-file-search-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Deep Document Parsing</h4>
+                        <p>PDF / Excel / Image / PPT multi-format parsing with structural info preserved</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-puzzle-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Chunking Strategies</h4>
+                        <p>Manual / Auto / Q&A / Table / Paper — multiple chunking methods</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-robot-2-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Agent Orchestration</h4>
+                        <p>Visual Agent Flow with tool calls, conditional branching, and loops</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-brain-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Memory Management</h4>
+                        <p>Agent long-term memory, cross-session persistence, CRUD & retrieval</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-shield-keyhole-line" style="color:var(--ob-blue);"></i></div>
+                        <h4>Knowledge Governance</h4>
+                        <p>Batch metadata management, file status tracking, quality monitoring</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-git-repository-line" style="color:var(--ob-teal);"></i></div>
+                        <h4>Open Source Apache 2.0</h4>
+                        <p>By InfiniFlow, active community, supports self-hosted deployment</p>
+                    </div>
+                </div>
+                <aside class="notes">RAGFlow is an open-source deep document understanding RAG engine by InfiniFlow. Core strength: document parsing quality and configurable chunking.</aside>
+            </section>
+
+            <!-- ══ Slide 3 · What is PowerRAG ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">PowerRAG</span></div>
+                <h2 class="slide-title">PowerRAG — OceanBase Edition of RAGFlow</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-stack-line" style="color:var(--ob-blue);margin-right:4px;"></i> Architecture Position</strong>
+                        <p>Built on RAGFlow framework, OceanBase multi-modal unified database as foundation, providing extended enterprise capabilities.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-database-2-line" style="color:var(--ob-teal);margin-right:4px;"></i> OceanBase Foundation</strong>
+                        <p>Replaces MySQL as primary DB — unified storage for metadata, vectors, full-text indexes in one engine.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-search-eye-line" style="color:var(--ob-blue);margin-right:4px;"></i> Multi-Modal Retrieval</strong>
+                        <p>SQL + NoSQL unified architecture, leveraging OceanBase's high-performance vector search and full-text capabilities.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-community-line" style="color:var(--ob-teal);margin-right:4px;"></i> Community Edition</strong>
+                        <p>PowerRAG Community Edition based on RAGFlow, Apache 2.0 license, available on Docker Hub.</p>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Shell — Docker Launch PowerRAG</div>
+                    <pre><code class="language-bash">docker pull oceanbase/powerrag:latest
+
+# Launch PowerRAG Community Edition
+# Built-in OceanBase as primary database
+docker run -d --name powerrag \
+  -p 80:80 \
+  -p 443:443 \
+  oceanbase/powerrag:latest</code></pre>
+                </div>
+                <aside class="notes">PowerRAG is the OceanBase edition of RAGFlow. Community Edition available on Docker Hub.</aside>
+            </section>
+
+            <!-- ══ Slide 4 · Architecture ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Architecture</span></div>
+                <h2 class="slide-title">PowerRAG Technical Architecture</h2>
+                <div style="margin-top:1.5rem;text-align:center;">
+                    <div style="display:inline-flex;flex-direction:column;gap:0.6rem;max-width:720px;">
+                        <div style="background:var(--ob-blue-10);border:2px solid var(--ob-blue);border-radius:var(--radius-lg);padding:0.8rem 2rem;">
+                            <strong style="color:var(--ob-blue);">PowerRAG Extension Layer</strong><br>
+                            <span style="font-size:0.72rem;color:var(--dim);">Enterprise Enhancements · Knowledge Governance · Memory Management · Agent Chat · Multi-Tenant</span>
+                        </div>
+                        <div style="font-size:1.2rem;color:var(--ghost);">↕</div>
+                        <div style="background:#f0f0ff;border:2px solid #6366f1;border-radius:var(--radius-lg);padding:0.8rem 2rem;">
+                            <strong style="color:#6366f1;">RAGFlow Core Framework</strong><br>
+                            <span style="font-size:0.72rem;color:var(--dim);">Document Parsing · Chunking · Vector Embedding · Retrieval Engine · Agent Flow</span>
+                        </div>
+                        <div style="font-size:1.2rem;color:var(--ghost);">↕</div>
+                        <div style="background:var(--ob-teal-10);border:2px solid var(--ob-teal);border-radius:var(--radius-lg);padding:0.8rem 2rem;">
+                            <strong style="color:var(--ob-teal);">OceanBase Multi-Modal Database</strong><br>
+                            <span style="font-size:0.72rem;color:var(--dim);">Metadata (OLTP) · Vector Index (HNSW) · Full-Text (FULLTEXT) · JSON · GIS</span>
+                        </div>
+                        <div style="font-size:1.2rem;color:var(--ghost);">↕</div>
+                        <div style="display:flex;gap:0.6rem;justify-content:center;">
+                            <div style="background:var(--lift);border:1px solid var(--rule);border-radius:var(--radius);padding:0.6rem 1rem;flex:1;">
+                                <strong style="font-size:0.8rem;">Redis</strong><br>
+                                <span style="font-size:0.65rem;color:var(--dim);">Cache & Queue</span>
+                            </div>
+                            <div style="background:var(--lift);border:1px solid var(--rule);border-radius:var(--radius);padding:0.6rem 1rem;flex:1;">
+                                <strong style="font-size:0.8rem;">MinIO</strong><br>
+                                <span style="font-size:0.65rem;color:var(--dim);">Object Storage</span>
+                            </div>
+                            <div style="background:var(--lift);border:1px solid var(--rule);border-radius:var(--radius);padding:0.6rem 1rem;flex:1;">
+                                <strong style="font-size:0.8rem;">Elasticsearch</strong><br>
+                                <span style="font-size:0.65rem;color:var(--dim);">Full-Text (Optional)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">Three-layer architecture: PowerRAG Extension → RAGFlow Core → OceanBase Foundation. OB replaces MySQL as primary DB.</aside>
+            </section>
+
+            <!-- ══ Slide 5 · Key Features ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Features</span></div>
+                <h2 class="slide-title">PowerRAG Key Capabilities</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-brain-line" style="color:var(--ob-blue);margin-right:4px;"></i> Memory Management</strong>
+                        <p>Observable Agent memory extraction, embedding, and storage. RESTful API + Python SDK for CRUD and intelligent retrieval.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-chat-3-line" style="color:var(--ob-teal);margin-right:4px;"></i> Agent Chat</strong>
+                        <p>Built-in Agent chat interface with full conversation history preservation and multi-session management.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-folder-shield-line" style="color:var(--ob-blue);margin-right:4px;"></i> Knowledge Governance</strong>
+                        <p>Batch metadata management, file status tracking, quality monitoring — governable data assets.</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-user-settings-line" style="color:var(--ob-teal);margin-right:4px;"></i> Multi-Admin Support</strong>
+                        <p>Breaks single-admin limitation. Multiple superuser roles for enterprise org structures.</p>
+                    </div>
+                </div>
+                <aside class="notes">PowerRAG adds Memory, Agent Chat, Knowledge Governance, and Multi-Admin on top of RAGFlow.</aside>
+            </section>
+
+            <!-- ══ Slide 6 · OceanBase as RAGFlow DB ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">OB Replacement</span></div>
+                <h2 class="slide-title">OceanBase Replaces MySQL — Advantages</h2>
+                <table style="margin-top:1rem;">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">Dimension</th>
+                            <th style="width:37%;">MySQL + External Vector DB</th>
+                            <th style="width:38%;background:var(--ob-blue-10);">OceanBase Unified Engine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Metadata</strong></td>
+                            <td>MySQL</td>
+                            <td style="background:var(--ob-blue-10);">OceanBase (MySQL compatible)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vector Search</strong></td>
+                            <td>Requires Pinecone / Weaviate</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Built-in HNSW vector index</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Full-Text</strong></td>
+                            <td>Requires Elasticsearch</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Built-in FULLTEXT index</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Consistency</strong></td>
+                            <td>Cross-system sync with lag</td>
+                            <td style="background:var(--ob-blue-10);"><strong>ACID transactions, zero lag</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ops Complexity</strong></td>
+                            <td>3+ systems to manage</td>
+                            <td style="background:var(--ob-blue-10);"><strong>1 engine</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Migration Cost</strong></td>
+                            <td>—</td>
+                            <td style="background:var(--ob-blue-10);"><strong>MySQL protocol compatible, zero rewrite</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <aside class="notes">OceanBase replaces MySQL + Vector DB + ES trio. MySQL protocol compatible, zero-rewrite migration.</aside>
+            </section>
+
+            <!-- ══ Slide 7 · Memory System ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Memory</span></div>
+                <h2 class="slide-title">Agent Memory System — PowerMem</h2>
+                <div class="step-list" style="margin-top:1rem;">
+                    <div class="step-item">
+                        <span class="step-num">01</span>
+                        <div class="step-content">
+                            <strong>Memory Extraction</strong>
+                            <p>Auto-extract key info from conversations, async embedding & storage, full log traceability</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">02</span>
+                        <div class="step-content">
+                            <strong>Persistent Storage</strong>
+                            <p>OceanBase vector storage with ACID guarantees — memories never lost, cross-session persistence</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">03</span>
+                        <div class="step-content">
+                            <strong>Intelligent Retrieval</strong>
+                            <p>Keyword + semantic similarity dual-path retrieval for fast memory lookup</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">04</span>
+                        <div class="step-content">
+                            <strong>API Integration</strong>
+                            <p>RESTful API + Python SDK for CRUD, enable/disable, and forgetting management</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:1rem;background:var(--ob-blue-10);border-radius:var(--radius);padding:1rem 1.2rem;">
+                    <strong style="color:var(--ob-blue);font-size:0.85rem;"><i class="ri-trophy-line" style="margin-right:4px;"></i> LOCOMO Benchmark SOTA</strong>
+                    <p style="font-size:0.78rem;color:var(--dim);margin-top:4px;">PowerMem achieves SOTA on the LOCOMO long-term memory benchmark while slashing context token usage by 96%.</p>
+                </div>
+                <aside class="notes">PowerMem is an Agent memory system built on seekdb. SOTA on LOCOMO benchmark, 96% token reduction.</aside>
+            </section>
+
+            <!-- ══ Slide 8 · Enterprise RAG ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Enterprise</span></div>
+                <h2 class="slide-title">Enterprise RAG Best Practices</h2>
+                <div class="grid-2" style="margin-top:1.2rem;">
+                    <div class="callout">
+                        <strong><i class="ri-shield-check-line" style="color:var(--ob-blue);margin-right:4px;"></i> Data Security</strong>
+                        <p>OceanBase encryption in transit + TDE, knowledge base access control, multi-tenant isolation</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-bar-chart-box-line" style="color:var(--ob-teal);margin-right:4px;"></i> Observability</strong>
+                        <p>Memory extraction status & logs, retrieval quality monitoring, token usage statistics</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-scale-line" style="color:var(--ob-blue);margin-right:4px;"></i> High Availability</strong>
+                        <p>OceanBase Paxos protocol, RPO=0, RTO<30s, 7×24 business continuity</p>
+                    </div>
+                    <div class="callout">
+                        <strong><i class="ri-expand-diagonal-line" style="color:var(--ob-teal);margin-right:4px;"></i> Elastic Scaling</strong>
+                        <p>Online scale-out/in, knowledge base from GB to TB without downtime</p>
+                    </div>
+                </div>
+                <aside class="notes">Enterprise RAG focuses on data security, observability, high availability, and elastic scaling. OceanBase has natural advantages.</aside>
+            </section>
+
+            <!-- ══ Slide 9 · Quick Start ══ -->
+            <section data-background-color="#fafafa">
+                <div class="slide-label"><span class="pill">Quick Start</span></div>
+                <h2 class="slide-title">Deploy PowerRAG in 5 Minutes</h2>
+                <div class="code-block" style="margin-top:1rem;">
+                    <div class="code-block-title">Shell — Docker Compose Launch</div>
+                    <pre><code class="language-bash"># Clone PowerRAG repository
+git clone https://github.com/oceanbase/powerrag.git
+cd powerrag
+
+# Docker Compose launch (built-in OceanBase)
+docker compose up -d
+
+# Or pull directly from Docker Hub
+docker pull oceanbase/powerrag:latest</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:0.6rem;">
+                    <div class="code-block-title">Configure LLM Models</div>
+                    <pre><code class="language-yaml"># Configure models in PowerRAG console
+# Settings → Model Providers → Add Ollama / OpenAI / vLLM
+
+# Recommended: Ollama local deployment
+ollama pull llama3.2    # Chat model
+ollama pull bge-m3      # Embedding model
+
+# PowerRAG Settings
+Chat Model: llama3.2
+Embedding Model: bge-m3
+Base URL: http://host.docker.internal:11434</code></pre>
+                </div>
+                <div class="code-block" style="margin-top:0.6rem;">
+                    <div class="code-block-title">Create Knowledge Base & Start Chat</div>
+                    <pre><code class="text">1. Knowledge Base → New → Upload documents (PDF/Markdown/Excel)
+2. Select chunking strategy → Auto parse & embed
+3. Chat → Link knowledge base → Start RAG conversation
+4. Agent → Create Agent Flow → Add Memory node</code></pre>
+                </div>
+                <aside class="notes">Three steps: 1) Docker launch 2) Configure LLM models 3) Create knowledge base and start chatting. Supports Ollama local models.</aside>
+            </section>
+
+            <!-- ══ Slide 10 · Closing ══ -->
+            <section data-background-color="#1a1aff">
+                <div class="slide-hero text-center" style="max-width:860px;">
+                    <img src="../assets/logo.png" alt="OceanBase" class="closing-logo" style="height:36px; margin-bottom:1.5rem;">
+                    <h2 style="color:#fff;font-size:2rem;">PowerRAG: Enterprise RAG Powered by OceanBase</h2>
+                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">Multi-Modal Retrieval · Memory SOTA · Knowledge Governance · One-Click Deploy</p>
+                    <div class="closing-links" style="margin-top:2rem;color:rgba(255,255,255,0.6);">
+                        <a href="https://github.com/oceanbase/powerrag" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/powerrag</a><br>
+                        <a href="https://hub.docker.com/r/oceanbase/powerrag" target="_blank" style="color:rgba(255,255,255,0.8);">Docker Hub — oceanbase/powerrag</a><br>
+                        <a href="https://ragflow.io" target="_blank" style="color:rgba(255,255,255,0.8);">ragflow.io</a>
+                    </div>
+                </div>
+                <aside class="notes">Summary: PowerRAG built on RAGFlow + OceanBase provides an out-of-the-box enterprise RAG solution.</aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'fade',
+            backgroundTransition: 'fade',
+            plugins: [RevealNotes, RevealHighlight],
+        });
+    </script>
+</body>
+</html>

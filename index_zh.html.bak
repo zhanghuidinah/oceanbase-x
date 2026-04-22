@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OceanBase X · AI Landscape</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink:   #0d0d0d;
+      --paper: #ffffff;
+      --rule:  #e2e0d9;
+      --dim:   #6e6d66;
+      --ghost: #b0afa7;
+      --blue:  #1a1aff;
+      --teal:  #00d4aa;
+      --lift:  #f7f6f1;
+      --blue-10: rgba(26,26,255,0.07);
+      --teal-10: rgba(0,212,170,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #0a0a0f;
+      color: #e8e8ed;
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Top bar ──────────────────────────────────────────── */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 50px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #e8e8ed; }
+    .brand img { height: 24px; display: block; }
+    .brand-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; color: #fff; letter-spacing: -0.02em; }
+    .brand-divider { width: 1px; height: 12px; background: rgba(255,255,255,0.15); }
+    .brand-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ghost);
+    }
+    .lang-switch {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .lang-switch a { color: rgba(255,255,255,0.35); text-decoration: none; padding: 4px 8px; transition: color 0.15s; }
+    .lang-switch a.active { color: #e8e8ed; }
+    .lang-switch a:hover:not(.active) { color: rgba(255,255,255,0.6); }
+    .lang-switch .sep { color: rgba(255,255,255,0.15); }
+
+    /* ── Canvas ───────────────────────────────────────────── */
+    .landscape-canvas {
+      width: 100%;
+      min-height: 100vh;
+      padding: 80px 40px 40px;
+      position: relative;
+    }
+
+    /* ── Title ────────────────────────────────────────────── */
+    .landscape-title {
+      text-align: center;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 2;
+    }
+    .landscape-title h1 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .landscape-title h1 .accent-blue { color: var(--blue); }
+    .landscape-title h1 .accent-teal { color: var(--teal); }
+    .landscape-title p {
+      font-size: 13px; color: rgba(255,255,255,0.4);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Architecture stack (7 layers) ────────────────────── */
+    .arch-stack {
+      max-width: 1200px;
+      margin: 0 auto 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      z-index: 2;
+    }
+    .arch-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .arch-side {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      padding: 14px 10px;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: #fff;
+      text-align: center;
+    }
+    .arch-body {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    /* colour themes per row (match reference) */
+    .arch-row.t-green   .arch-side { background: #2aa84a; }
+    .arch-row.t-green   .arch-body { background: rgba(42,168,74,0.08); border: 1px solid rgba(42,168,74,0.25); }
+    .arch-row.t-gray    .arch-side { background: #7a7d82; }
+    .arch-row.t-gray    .arch-body { background: rgba(122,125,130,0.08); border: 1px solid rgba(122,125,130,0.25); }
+    .arch-row.t-blue    .arch-side { background: #2f7dd1; }
+    .arch-row.t-blue    .arch-body { background: rgba(47,125,209,0.08); border: 1px solid rgba(47,125,209,0.25); }
+    .arch-row.t-dgreen  .arch-side { background: #1e8e3e; }
+    .arch-row.t-dgreen  .arch-body { background: rgba(30,142,62,0.08); border: 1px solid rgba(30,142,62,0.25); }
+    .arch-row.t-lblue   .arch-side { background: #2f7dd1; }
+    .arch-row.t-lblue   .arch-body { background: rgba(47,125,209,0.06); border: 1px solid rgba(47,125,209,0.22); }
+
+    .arch-chip {
+      flex: 1 1 auto;
+      min-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.3s, filter 0.2s;
+    }
+    .arch-chip.c-green  { background: #2aa84a; }
+    .arch-chip.c-gray   { background: #8a8d92; }
+    .arch-chip.c-blue   { background: #2f7dd1; }
+    .arch-chip.c-dgreen { background: #1e8e3e; }
+    .arch-chip.c-lblue  { background: #4aa3df; }
+    .arch-chip.c-dots   { background: transparent; color: rgba(255,255,255,0.5); font-size: 18px; }
+    a.arch-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      filter: brightness(1.1);
+    }
+
+    .arch-group {
+      flex: 1 1 auto;
+      min-width: 280px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(47,125,209,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .arch-group.g-blue    { background: #2f7dd1; }
+    .arch-group.g-lblue   { background: rgba(74,163,223,0.25); border: 1px solid rgba(74,163,223,0.4); }
+    .arch-group-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      padding-bottom: 4px;
+    }
+    .arch-group-items {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .arch-pill {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.85);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .arch-sub {
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-align: center;
+      flex: 1 1 auto;
+      min-width: 100px;
+    }
+    .arch-sub.s-blue   { background: #2f7dd1; }
+    .arch-sub.s-lblue  { background: #4aa3df; }
+
+    /* Supplemental ecosystem grid */
+    .eco-extra {
+      max-width: 1200px;
+      margin: 24px auto 0;
+      padding: 20px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      z-index: 2;
+    }
+    .eco-extra-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+    }
+    .eco-extra-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+    .eco-extra-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .eco-item {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      color: #e8e8ed;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: block;
+    }
+    .eco-item:hover {
+      border-color: var(--blue);
+      background: rgba(26,26,255,0.08);
+      transform: translateY(-2px);
+    }
+    .eco-item .eco-name { font-weight: 600; color: #fff; margin-bottom: 2px; }
+    .eco-item .eco-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Flow Diagram ─────────────────────────────────────── */
+    .flow-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* SVG for flow lines */
+    .flow-svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Layers ───────────────────────────────────────────── */
+    .flow-layer {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 0;
+    }
+
+    .layer-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .layer-nodes {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Node ─────────────────────────────────────────────── */
+    .node {
+      position: relative;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px 20px;
+      min-width: 140px;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.2s;
+      cursor: default;
+      text-decoration: none;
+      color: inherit;
+    }
+    .node:hover {
+      border-color: var(--blue);
+      box-shadow: 0 0 24px rgba(26,26,255,0.15), inset 0 0 24px rgba(26,26,255,0.03);
+      background: rgba(26,26,255,0.06);
+      transform: translateY(-2px);
+    }
+    .node.is-core {
+      border-color: rgba(26,26,255,0.3);
+      background: rgba(26,26,255,0.06);
+      min-width: 200px;
+      padding: 24px 28px;
+    }
+    .node.is-core:hover {
+      border-color: var(--blue);
+      box-shadow: 0 0 40px rgba(26,26,255,0.25), inset 0 0 30px rgba(26,26,255,0.05);
+    }
+    .node.is-teal:hover {
+      border-color: var(--teal);
+      box-shadow: 0 0 24px rgba(0,212,170,0.15), inset 0 0 24px rgba(0,212,170,0.03);
+      background: rgba(0,212,170,0.06);
+    }
+    .node.is-link {
+      cursor: pointer;
+    }
+    .node.is-link:hover {
+      transform: translateY(-3px);
+    }
+
+    .node-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .node-icon.blue { color: var(--blue); }
+    .node-icon.teal { color: var(--teal); }
+
+    .node-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e8e8ed;
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+    .node-desc {
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.5;
+    }
+
+    /* Core node special */
+    .node.is-core .node-icon { font-size: 28px; }
+    .node.is-core .node-name { font-size: 16px; }
+    .node.is-core .node-desc { font-size: 11px; }
+
+    /* ── Flow connector lines ─────────────────────────────── */
+    .flow-connector {
+      display: flex;
+      justify-content: center;
+      padding: 6px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .flow-line {
+      width: 1px;
+      height: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .flow-line::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 1px; height: 100%;
+      background: rgba(255,255,255,0.08);
+    }
+    /* Animated particle */
+    .flow-line::after {
+      content: '';
+      position: absolute;
+      left: -1px;
+      width: 3px;
+      height: 8px;
+      border-radius: 2px;
+      animation: flowDown 1.8s ease-in-out infinite;
+    }
+    .flow-line.blue-particle::after {
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue), 0 0 16px rgba(26,26,255,0.3);
+    }
+    .flow-line.teal-particle::after {
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal), 0 0 16px rgba(0,212,170,0.3);
+    }
+
+    @keyframes flowDown {
+      0%   { top: -8px; opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { top: calc(100% + 8px); opacity: 0; }
+    }
+
+    /* Multi-line connector */
+    .flow-multi {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 6px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Horizontal flow particles ────────────────────────── */
+    .h-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 4px 0;
+      position: relative;
+      z-index: 2;
+    }
+    .h-flow-line {
+      height: 1px;
+      width: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .h-flow-line::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    .h-flow-line::after {
+      content: '';
+      position: absolute;
+      top: -1px;
+      height: 3px;
+      width: 10px;
+      border-radius: 2px;
+      animation: flowRight 2s ease-in-out infinite;
+    }
+    .h-flow-line.blue-particle::after {
+      background: var(--blue);
+      box-shadow: 0 0 6px var(--blue);
+    }
+    .h-flow-line.teal-particle::after {
+      background: var(--teal);
+      box-shadow: 0 0 6px var(--teal);
+    }
+    @keyframes flowRight {
+      0%   { left: -10px; opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { left: calc(100% + 10px); opacity: 0; }
+    }
+
+    /* ── Data flow label ──────────────────────────────────── */
+    .flow-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      padding: 2px 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+      white-space: nowrap;
+    }
+
+    /* ── Pulsing ring on core node ────────────────────────── */
+    .pulse-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 16px;
+      border: 1px solid var(--blue);
+      opacity: 0;
+      animation: pulseRing 3s ease-out infinite;
+    }
+    .pulse-ring.delay { animation-delay: 1.5s; }
+    @keyframes pulseRing {
+      0%   { transform: scale(1); opacity: 0.4; }
+      100% { transform: scale(1.08); opacity: 0; }
+    }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    .site-footer {
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.06em; color: rgba(255,255,255,0.2);
+      flex-wrap: wrap;
+    }
+    .site-footer a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.15s; }
+    .site-footer a:hover { color: rgba(255,255,255,0.7); }
+    .site-footer .sep { color: rgba(255,255,255,0.1); }
+
+    /* ── Background grid ──────────────────────────────────── */
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow {
+      position: fixed;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow.blue {
+      top: 30%; left: 40%;
+      background: rgba(26,26,255,0.08);
+    }
+    .bg-glow.teal {
+      top: 55%; left: 55%;
+      background: rgba(0,212,170,0.05);
+    }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .top-bar { padding: 0 16px; }
+      .landscape-canvas { padding: 68px 16px 24px; }
+      .landscape-title { margin-bottom: 32px; }
+      .layer-nodes { gap: 10px; }
+      .node { min-width: 110px; padding: 12px 14px; }
+      .node.is-core { min-width: 150px; padding: 18px 20px; }
+      .h-flow-line { width: 30px; }
+      .site-footer { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="bg-glow blue"></div>
+  <div class="bg-glow teal"></div>
+
+  <header class="top-bar">
+    <a class="brand" href="index_zh.html">
+      <img src="assets/logo.svg" alt="OceanBase">
+      <span class="brand-name">OceanBase</span>
+      <span class="brand-divider"></span>
+      <span class="brand-tag">AI Landscape</span>
+    </a>
+    <nav class="lang-switch">
+      <a class="active" href="index_zh.html">中文</a>
+      <span class="sep">/</span>
+      <a href="index_en.html">EN</a>
+    </nav>
+  </header>
+
+  <main class="landscape-canvas">
+
+    <div class="landscape-title">
+      <h1>OceanBase <span class="accent-blue">AI</span> <span class="accent-teal">Ecosystem</span></h1>
+      <p>数据流动 · 一个引擎覆盖 AI 全栈</p>
+    </div>
+
+    <div class="flow-container">
+
+      <!-- ══ Layer 1: AI Applications ══ -->
+      <div class="flow-layer">
+        <div class="layer-label">AI 应用层</div>
+        <div class="layer-nodes">
+          <a class="node is-link" href="ob-langchain/index.html">
+            <span class="node-icon blue"><i class="ri-links-line"></i></span>
+            <div class="node-name">LangChain</div>
+            <div class="node-desc">RAG · Agent · VectorStore</div>
+          </a>
+          <a class="node is-link is-teal" href="ob-dify/index.html">
+            <span class="node-icon teal"><i class="ri-robot-2-line"></i></span>
+            <div class="node-name">Dify</div>
+            <div class="node-desc">Workflow · 知识库 · 插件</div>
+          </a>
+          <a class="node is-link" href="ob-ragflow/index.html">
+            <span class="node-icon blue"><i class="ri-brain-line"></i></span>
+            <div class="node-name">RAGFlow</div>
+            <div class="node-desc">PowerRAG · 多模态 · Memory</div>
+          </a>
+          <div class="node">
+            <span class="node-icon teal"><i class="ri-book-open-line"></i></span>
+            <div class="node-name">LlamaIndex</div>
+            <div class="node-desc">数据框架 · 索引 · 查询</div>
+          </div>
+          <div class="node">
+            <span class="node-icon blue"><i class="ri-code-box-line"></i></span>
+            <div class="node-name">Spring AI</div>
+            <div class="node-desc">Java 生态 · AI 抽象</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow: App → SDK -->
+      <div class="flow-connector">
+        <div class="flow-line blue-particle"></div>
+      </div>
+      <div class="h-flow" style="justify-content:center; gap:6px;">
+        <span class="flow-tag">Embed / Query / Rerank</span>
+      </div>
+      <div class="flow-connector">
+        <div class="flow-line teal-particle" style="animation-delay:0.4s"></div>
+      </div>
+
+      <!-- ══ Layer 2: SDK ══ -->
+      <div class="flow-layer">
+        <div class="layer-label">SDK & 连接器</div>
+        <div class="layer-nodes">
+          <div class="node is-teal">
+            <span class="node-icon teal"><i class="ri-code-s-slash-line"></i></span>
+            <div class="node-name">pyobvector</div>
+            <div class="node-desc">Python · Milvus 兼容 · SQLAlchemy</div>
+          </div>
+          <div class="node">
+            <span class="node-icon blue"><i class="ri-terminal-box-line"></i></span>
+            <div class="node-name">pyseekdb</div>
+            <div class="node-desc">Python · Schemaless · 嵌入式</div>
+          </div>
+          <div class="node">
+            <span class="node-icon teal"><i class="ri-java-line"></i></span>
+            <div class="node-name">Connector/J</div>
+            <div class="node-desc">JDBC · MySQL 协议</div>
+          </div>
+          <div class="node">
+            <span class="node-icon blue"><i class="ri-database-line"></i></span>
+            <div class="node-name">Connector/ODBC</div>
+            <div class="node-desc">ODBC 标准接口</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow: SDK → Engine -->
+      <div class="flow-connector">
+        <div class="flow-line blue-particle" style="animation-delay:0.2s"></div>
+      </div>
+      <div class="h-flow" style="justify-content:center; gap:6px;">
+        <span class="flow-tag">SQL / Vector API / Hybrid Search</span>
+      </div>
+      <div class="flow-connector">
+        <div class="flow-line teal-particle" style="animation-delay:0.6s"></div>
+      </div>
+
+      <!-- ══ Layer 3: Engine (Core) ══ -->
+      <div class="flow-layer">
+        <div class="layer-label">数据引擎</div>
+        <div class="layer-nodes" style="gap: 20px;">
+          <div class="node is-core" style="position:relative;">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring delay"></div>
+            <span class="node-icon blue"><i class="ri-search-eye-line"></i></span>
+            <div class="node-name">OceanBase seekdb</div>
+            <div class="node-desc">AI 原生混合搜索数据库<br>向量 · 全文 · 标量 一体化</div>
+          </div>
+          <div class="node is-core is-teal" style="position:relative;">
+            <div class="pulse-ring" style="border-color:var(--teal);"></div>
+            <div class="pulse-ring delay" style="border-color:var(--teal);"></div>
+            <span class="node-icon teal"><i class="ri-database-2-line"></i></span>
+            <div class="node-name">OceanBase Database</div>
+            <div class="node-desc">分布式 HTAP 数据库<br>Paxos · 行列混存 · MySQL 兼容</div>
+          </div>
+        </div>
+
+        <!-- Horizontal data flow between engines -->
+        <div class="h-flow" style="margin-top: 16px;">
+          <div class="node" style="min-width:auto; padding:8px 14px;">
+            <span class="node-icon blue" style="font-size:16px;margin:0;"><i class="ri-arrow-left-right-line"></i></span>
+            <div class="node-name" style="font-size:11px;">ACID 事务同步</div>
+          </div>
+          <div class="h-flow-line blue-particle"></div>
+          <div class="h-flow-line teal-particle" style="animation-delay:0.5s"></div>
+          <div class="h-flow-line blue-particle" style="animation-delay:1s"></div>
+          <div class="node" style="min-width:auto; padding:8px 14px;">
+            <span class="node-icon teal" style="font-size:16px;margin:0;"><i class="ri-arrow-left-right-line"></i></span>
+            <div class="node-name" style="font-size:11px;">向量 / 全文索引同步</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow: Engine → Storage -->
+      <div class="flow-connector">
+        <div class="flow-line blue-particle" style="animation-delay:0.3s"></div>
+      </div>
+      <div class="h-flow" style="justify-content:center; gap:6px;">
+        <span class="flow-tag">读写分离 · 数据持久化 · 分布式复制</span>
+      </div>
+      <div class="flow-connector">
+        <div class="flow-line teal-particle" style="animation-delay:0.8s"></div>
+      </div>
+
+      <!-- ══ Layer 4: Storage & Infra ══ -->
+      <div class="flow-layer">
+        <div class="layer-label">存储 & 基础设施</div>
+        <div class="layer-nodes">
+          <div class="node">
+            <span class="node-icon teal"><i class="ri-cloud-line"></i></span>
+            <div class="node-name">OceanBase Cloud</div>
+            <div class="node-desc">多云托管 · Serverless</div>
+          </div>
+          <div class="node">
+            <span class="node-icon blue"><i class="ri-server-line"></i></span>
+            <div class="node-name">存算分离</div>
+            <div class="node-desc">独立扩缩 · 成本优化</div>
+          </div>
+          <div class="node">
+            <span class="node-icon teal"><i class="ri-shield-check-line"></i></span>
+            <div class="node-name">Paxos 多副本</div>
+            <div class="node-desc">RPO=0 · RTO&lt;8s</div>
+          </div>
+          <div class="node">
+            <span class="node-icon blue"><i class="ri-hard-drive-3-line"></i></span>
+            <div class="node-name">对象存储</div>
+            <div class="node-desc">S3 / OSS / COS</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /flow-container -->
+
+    <footer class="site-footer">
+      <a href="https://github.com/oceanbase" target="_blank">@oceanbase</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/oceanbase/ob-x" target="_blank">ob-x</a>
+      <span class="sep">·</span>
+      <a href="https://en.oceanbase.com" target="_blank">oceanbase.com</a>
+      <span class="sep">·</span>
+      <a href="https://open.oceanbase.com" target="_blank">开源社区</a>
+      <span class="sep">·</span>
+      <span>&copy; 2026 OceanBase</span>
+    </footer>
+
+  </main>
+
+  <script>
+    // Stagger flow particle delays for visual richness
+    document.querySelectorAll('.flow-line').forEach((el, i) => {
+      if (!el.style.animationDelay) {
+        el.style.animationDelay = (i * 0.3) + 's';
+      }
+    });
+    document.querySelectorAll('.h-flow-line').forEach((el, i) => {
+      if (!el.style.animationDelay) {
+        el.style.animationDelay = (i * 0.4) + 's';
+      }
+    });
+  </script>
+
+</body>
+</html>
