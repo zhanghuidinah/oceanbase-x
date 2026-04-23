@@ -1,0 +1,7 @@
+风险内容位置：
+    CommitId: 69634e15554aff81aa09094aa2fb3c039e33938c
+风险内容：
+    对于提交到github的commit信息，强制要求使用公司邮箱，比如：@antgroup.com,@alipay.com,@alibaba-inc.com,@antfin.com,@oceanbase.com,@users.noreply.github.com
+风险细节：
+    敏感类型：committer邮箱地址校验(committerEmailCheck)
+    敏感细节：{hitWord=您当前的提交邮箱为：you@chenguo.zh@oceanbase.com,请修改为公司邮箱。}
