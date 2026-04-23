@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OceanBase × LangChain — 向量检索与混合搜索集成实战</title>
+    <title>OceanBase × LangChain — Vector Search &amp; Hybrid Retrieval</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="reveal-theme">
@@ -11,17 +11,17 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../styles/ob-theme.css">
 </head>
 <body>
     <div class="lang-switch">
-        <a class="active" href="index.html">中文</a>
+        <a href="index_zh.html">中文</a>
         <span>/</span>
-        <a href="index_en.html">EN</a>
+        <a class="active" href="index.html">EN</a>
     </div>
-    <a class="nordic-logo" href="../index_zh.html">
+    <a class="nordic-logo" href="../index.html">
         <img src="../assets/logo.png" alt="OceanBase" class="nordic-logo-img">
         <span class="nordic-logo-name">OceanBase</span>
         <span class="nordic-logo-text">OB × LangChain</span>
@@ -33,88 +33,88 @@
             <section data-background-color="#fafafa">
                 <div class="slide-hero text-center" style="max-width:860px;">
                     <h1 style="font-size:2.6rem;line-height:1.1;">OceanBase × LangChain</h1>
-                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">向量检索与混合搜索集成实战<br>从 pyobvector SDK 到生产级 RAG 管线</p>
+                    <p class="slide-subtitle" style="margin:1.2rem auto 0;max-width:600px;">Vector Search &amp; Hybrid Retrieval Integration<br>From pyobvector SDK to Production-Grade RAG Pipelines</p>
                     <div style="width:48px;height:3px;background:var(--ob-blue);border-radius:2px;margin:2rem 0 1.5rem;"></div>
                     <div class="author-block" style="align-items:center;margin-top:0;">
                         <div class="author-name">OceanBase DevRel</div>
                         <div class="author-meta">Developer Relations @ OceanBase</div>
                     </div>
                 </div>
-                <aside class="notes">开场：介绍 OceanBase 与 LangChain 生态的集成，目标听众为 AI 应用开发者。</aside>
+                <aside class="notes">Introduction: OceanBase + LangChain ecosystem integration. Target audience: AI application developers.</aside>
             </section>
 
             <!-- ══ Slide 2 · Why OceanBase for AI ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">背景</span></div>
-                <h2 class="slide-title">为什么 AI 应用需要 OceanBase？</h2>
+                <div class="slide-label"><span class="pill">Context</span></div>
+                <h2 class="slide-title">Why AI Apps Need OceanBase</h2>
                 <div class="grid-2" style="margin-top:1.5rem;">
                     <div class="callout">
-                        <strong><i class="ri-database-2-line" style="color:var(--ob-blue);margin-right:4px;"></i> 数据孤岛爆炸</strong>
-                        <p>向量、JSON、全文、GIS 分散在多个引擎，开发者被迫拼装 MySQL + ES + Pinecone 的"弗兰肯斯坦"架构。</p>
+                        <strong><i class="ri-database-2-line" style="color:var(--ob-blue);margin-right:4px;"></i> Data Silo Explosion</strong>
+                        <p>Vectors, JSON, full-text, GIS scattered across engines. Developers forced to stitch MySQL + ES + Pinecone into a Frankenstein architecture.</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-refresh-line" style="color:var(--ob-blue);margin-right:4px;"></i> 新鲜度 vs 规模</strong>
-                        <p>传统向量库"最终一致性"导致 RAG 结果过时；OceanBase 严格 ACID 保证写入即可查。</p>
+                        <strong><i class="ri-refresh-line" style="color:var(--ob-blue);margin-right:4px;"></i> Freshness vs. Scale</strong>
+                        <p>Traditional vector DBs offer "eventual consistency" — stale RAG results. OceanBase guarantees strict ACID: queryable the millisecond data is written.</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-code-s-slash-line" style="color:var(--ob-blue);margin-right:4px;"></i> 胶水代码税</strong>
-                        <p>合并 MySQL + ES + Vector DB 结果需要 500+ 行 Python；OceanBase 一条 SQL 完成混合检索。</p>
+                        <strong><i class="ri-code-s-slash-line" style="color:var(--ob-blue);margin-right:4px;"></i> Glue Code Tax</strong>
+                        <p>Merging MySQL + ES + Vector DB results requires 500+ lines of Python. OceanBase does hybrid search in a single SQL query.</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-tools-line" style="color:var(--ob-blue);margin-right:4px;"></i> 运维疲劳</strong>
-                        <p>多套集群、多种 API、多种故障模式——AI 应用不该这么复杂。</p>
+                        <strong><i class="ri-tools-line" style="color:var(--ob-blue);margin-right:4px;"></i> Operational Fatigue</strong>
+                        <p>Multiple clusters, multiple APIs, multiple failure modes — AI apps shouldn't be this complex.</p>
                     </div>
                 </div>
-                <aside class="notes">痛点：数据孤岛、一致性、胶水代码、运维复杂度。OceanBase 用一个引擎解决所有问题。</aside>
+                <aside class="notes">Pain points: data silos, consistency, glue code, ops complexity. OceanBase solves all with one engine.</aside>
             </section>
 
             <!-- ══ Slide 3 · OceanBase Vector Capabilities ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">能力</span></div>
-                <h2 class="slide-title">OceanBase 向量能力一览</h2>
+                <div class="slide-label"><span class="pill">Capabilities</span></div>
+                <h2 class="slide-title">OceanBase Vector Capabilities</h2>
                 <div class="feature-grid" style="margin-top:1.2rem;">
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-search-eye-line" style="color:var(--ob-blue);"></i></div>
-                        <h4>向量存储 & 索引</h4>
-                        <p>VECTOR 类型 + HNSW 索引，支持 L2 / Inner Product / Cosine 距离</p>
+                        <h4>Vector Storage &amp; Index</h4>
+                        <p>VECTOR type + HNSW index, L2 / Inner Product / Cosine distance</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-file-search-line" style="color:var(--ob-teal);"></i></div>
-                        <h4>全文检索</h4>
-                        <p>内置 FULLTEXT 索引，无需 Elasticsearch 外挂</p>
+                        <h4>Full-Text Search</h4>
+                        <p>Built-in FULLTEXT index, no Elasticsearch needed</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-git-merge-line" style="color:var(--ob-blue);"></i></div>
-                        <h4>混合搜索</h4>
-                        <p>DBMS_HYBRID_SEARCH 包：向量 + 全文 + 标量过滤，单查询完成</p>
+                        <h4>Hybrid Search</h4>
+                        <p>DBMS_HYBRID_SEARCH: vector + full-text + scalar filter in one query</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-shield-check-line" style="color:var(--ob-teal);"></i></div>
-                        <h4>ACID 事务</h4>
-                        <p>标量、向量、全文索引原子更新，零不一致窗口</p>
+                        <h4>ACID Transactions</h4>
+                        <p>Scalar, vector, and full-text indexes update atomically — zero inconsistency window</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-braces-line" style="color:var(--ob-blue);"></i></div>
-                        <h4>JSON & GIS</h4>
-                        <p>半结构化与空间数据统一存储，一个引擎覆盖全模态</p>
+                        <h4>JSON &amp; GIS</h4>
+                        <p>Semi-structured and spatial data in one engine — full multi-modal coverage</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon"><i class="ri-plug-line" style="color:var(--ob-teal);"></i></div>
-                        <h4>MySQL 兼容</h4>
-                        <p>现有应用零改造迁移，保留完整 SQL 能力</p>
+                        <h4>MySQL Compatible</h4>
+                        <p>Zero-rewrite migration for existing MySQL applications</p>
                     </div>
                 </div>
-                <aside class="notes">OceanBase V4.3.3+ 原生支持向量类型和 HNSW 索引。核心优势：一个引擎搞定所有。</aside>
+                <aside class="notes">OceanBase V4.3.3+ natively supports vector types and HNSW indexes. Key advantage: one engine for everything.</aside>
             </section>
 
             <!-- ══ Slide 4 · pyobvector SDK ══ -->
             <section data-background-color="#fafafa">
                 <div class="slide-label"><span class="pill">SDK</span></div>
-                <h2 class="slide-title">pyobvector — Python SDK 两种模式</h2>
+                <h2 class="slide-title">pyobvector — Two Python SDK Modes</h2>
                 <div class="grid-2" style="margin-top:1.2rem;">
                     <div class="callout">
-                        <strong><i class="ri-api-line" style="color:var(--ob-blue);margin-right:4px;"></i> Milvus 兼容模式</strong>
-                        <p>MilvusLikeClient 类，API 与 Milvus 对齐，迁移零成本。</p>
+                        <strong><i class="ri-api-line" style="color:var(--ob-blue);margin-right:4px;"></i> Milvus-Compatible Mode</strong>
+                        <p>MilvusLikeClient class — API aligned with Milvus, zero-cost migration.</p>
                         <div class="code-block" style="margin-top:0.6rem;">
                             <div class="code-block-title">Python</div>
                             <pre><code class="language-python">from pyobvector import MilvusLikeClient
@@ -123,7 +123,7 @@ client = MilvusLikeClient(
     uri="127.0.0.1:2881",
     user="root@test"
 )
-# 创建集合 + 向量索引
+# Create collection + vector index
 client.create_collection(
     collection_name="docs",
     schema=schema,
@@ -132,8 +132,8 @@ client.create_collection(
                         </div>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-database-line" style="color:var(--ob-teal);margin-right:4px;"></i> SQLAlchemy 混合模式</strong>
-                        <p>ObVecClient 类，向量操作 + SQL 查询一体化，扩展 SQLAlchemy。</p>
+                        <strong><i class="ri-database-line" style="color:var(--ob-teal);margin-right:4px;"></i> SQLAlchemy Hybrid Mode</strong>
+                        <p>ObVecClient class — vector ops + SQL queries in one, extends SQLAlchemy.</p>
                         <div class="code-block" style="margin-top:0.6rem;">
                             <div class="code-block-title">Python</div>
                             <pre><code class="language-python">from pyobvector import ObVecClient
@@ -143,7 +143,7 @@ client = ObVecClient(
     uri="127.0.0.1:2881",
     user="root@test"
 )
-# ANN 搜索 + 标量过滤
+# ANN search + scalar filtering
 res = client.ann_search(
     table_name="docs",
     vec_data=embedding,
@@ -154,40 +154,40 @@ res = client.ann_search(
                         </div>
                     </div>
                 </div>
-                <aside class="notes">pyobvector 提供两种模式：Milvus 兼容（迁移友好）和 SQLAlchemy 混合（灵活查询）。安装：pip install pyobvector</aside>
+                <aside class="notes">pyobvector offers two modes: Milvus-compatible (migration-friendly) and SQLAlchemy hybrid (flexible querying). Install: pip install pyobvector</aside>
             </section>
 
             <!-- ══ Slide 5 · LangChain Integration ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">集成</span></div>
+                <div class="slide-label"><span class="pill">Integration</span></div>
                 <h2 class="slide-title">langchain-oceanbase — LangChain VectorStore</h2>
                 <div class="step-list" style="margin-top:1rem;">
                     <div class="step-item">
                         <span class="step-num">01</span>
                         <div class="step-content">
-                            <strong>安装依赖</strong>
+                            <strong>Install Dependencies</strong>
                             <p><code>pip install langchain-oceanbase pyobvector</code></p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">02</span>
                         <div class="step-content">
-                            <strong>初始化 OceanBaseVectorStore</strong>
-                            <p>传入 Embedding 模型 + 数据库连接，自动建表建索引</p>
+                            <strong>Initialize OceanBaseVectorStore</strong>
+                            <p>Pass Embedding model + DB connection — auto-creates table and index</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">03</span>
                         <div class="step-content">
-                            <strong>添加文档</strong>
-                            <p><code>vectorstore.add_documents(docs)</code> — 自动分块、嵌入、入库</p>
+                            <strong>Add Documents</strong>
+                            <p><code>vectorstore.add_documents(docs)</code> — auto chunk, embed, store</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">04</span>
                         <div class="step-content">
-                            <strong>混合检索</strong>
-                            <p>向量相似度 + 全文检索 + 标量过滤，可配置权重融合</p>
+                            <strong>Hybrid Retrieval</strong>
+                            <p>Vector similarity + full-text search + scalar filtering, configurable weight fusion</p>
                         </div>
                     </div>
                 </div>
@@ -205,37 +205,37 @@ vs = OceanBaseVectorStore(
     },
 )
 
-# 添加文档
+# Add documents
 vs.add_documents(split_docs)
 
-# 混合搜索
+# Hybrid search
 results = vs.similarity_search(
-    "OceanBase 分布式架构", k=5
+    "OceanBase distributed architecture", k=5
 )</code></pre>
                 </div>
-                <aside class="notes">langchain-oceanbase v0.3.3 已发布到 PyPI，支持 Hybrid Search 和元数据过滤。</aside>
+                <aside class="notes">langchain-oceanbase v0.3.3 is on PyPI. Supports Hybrid Search and metadata filtering.</aside>
             </section>
 
             <!-- ══ Slide 6 · RAG Pipeline ══ -->
             <section data-background-color="#fafafa">
                 <div class="slide-label"><span class="pill">RAG</span></div>
-                <h2 class="slide-title">端到端 RAG 管线</h2>
+                <h2 class="slide-title">End-to-End RAG Pipeline</h2>
                 <div class="grid-2" style="margin-top:1rem;">
                     <div class="callout">
-                        <strong><i class="ri-file-text-line" style="color:var(--ob-blue);margin-right:4px;"></i> 文档摄入</strong>
+                        <strong><i class="ri-file-text-line" style="color:var(--ob-blue);margin-right:4px;"></i> Document Ingestion</strong>
                         <p>LangChain DocumentLoader → TextSplitter → Embeddings → OceanBaseVectorStore</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-search-line" style="color:var(--ob-teal);margin-right:4px;"></i> 混合检索</strong>
-                        <p>用户 Query → Embedding → 向量 + 全文混合搜索 → DBMS_HYBRID_SEARCH 加权融合</p>
+                        <strong><i class="ri-search-line" style="color:var(--ob-teal);margin-right:4px;"></i> Hybrid Retrieval</strong>
+                        <p>User Query → Embedding → Vector + Full-text hybrid search → DBMS_HYBRID_SEARCH weighted fusion</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-robot-line" style="color:var(--ob-blue);margin-right:4px;"></i> 生成回答</strong>
-                        <p>Retriever → Context 拼接 → LLM (GPT-4 / Qwen / DeepSeek) → 结构化输出</p>
+                        <strong><i class="ri-robot-line" style="color:var(--ob-blue);margin-right:4px;"></i> Answer Generation</strong>
+                        <p>Retriever → Context assembly → LLM (GPT-4 / Qwen / DeepSeek) → Structured output</p>
                     </div>
                     <div class="callout">
-                        <strong><i class="ri-loop-left-line" style="color:var(--ob-teal);margin-right:4px;"></i> 评估迭代</strong>
-                        <p>LangSmith / RAGAS 评估 → 调整 chunk 大小、检索权重、reranker 策略</p>
+                        <strong><i class="ri-loop-left-line" style="color:var(--ob-teal);margin-right:4px;"></i> Evaluation &amp; Iteration</strong>
+                        <p>LangSmith / RAGAS evaluation → Tune chunk size, retrieval weights, reranker strategy</p>
                     </div>
                 </div>
                 <div class="code-block" style="margin-top:1rem;">
@@ -254,125 +254,125 @@ rag_chain = (
     | StrOutputParser()
 )
 
-rag_chain.invoke("OceanBase 如何实现分布式一致性？")</code></pre>
+rag_chain.invoke("How does OceanBase achieve distributed consistency?")</code></pre>
                 </div>
-                <aside class="notes">完整的 RAG 管线：加载文档 → 分块 → 嵌入 → 存储 → 检索 → 生成。OceanBase 作为 VectorStore 替代 Pinecone/Weaviate。</aside>
+                <aside class="notes">Full RAG pipeline: load docs → chunk → embed → store → retrieve → generate. OceanBase replaces Pinecone/Weaviate as VectorStore.</aside>
             </section>
 
             <!-- ══ Slide 7 · Hybrid Search Deep Dive ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">混合搜索</span></div>
-                <h2 class="slide-title">DBMS_HYBRID_SEARCH 深度解析</h2>
+                <div class="slide-label"><span class="pill">Hybrid Search</span></div>
+                <h2 class="slide-title">DBMS_HYBRID_SEARCH Deep Dive</h2>
                 <div class="step-list" style="margin-top:1rem;">
                     <div class="step-item">
                         <span class="step-num">01</span>
                         <div class="step-content">
-                            <strong>标量过滤</strong>
-                            <p>WHERE 条件先缩小范围，从百万级到千级</p>
+                            <strong>Scalar Filtering</strong>
+                            <p>WHERE clause narrows scope from millions to thousands</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">02</span>
                         <div class="step-content">
-                            <strong>粗排：向量 + 全文</strong>
-                            <p>HNSW 向量近邻 + FULLTEXT 关键词匹配，低成本并行召回</p>
+                            <strong>Coarse Ranking: Vector + Full-Text</strong>
+                            <p>HNSW vector ANN + FULLTEXT keyword match — low-cost parallel recall</p>
                         </div>
                     </div>
                     <div class="step-item">
                         <span class="step-num">03</span>
                         <div class="step-content">
-                            <strong>精排：Reranker</strong>
-                            <p>高精度重排序，可配置向量/全文权重比</p>
+                            <strong>Fine Ranking: Reranker</strong>
+                            <p>High-precision re-scoring with configurable vector/full-text weight ratio</p>
                         </div>
                     </div>
                 </div>
                 <div class="code-block" style="margin-top:1rem;">
-                    <div class="code-block-title">SQL — 混合搜索</div>
+                    <div class="code-block-title">SQL — Hybrid Search</div>
                     <pre><code class="language-sql">CALL DBMS_HYBRID_SEARCH(
   table_name   => 'knowledge_base',
-  query_text   => '分布式事务一致性协议',
+  query_text   => 'distributed transaction consistency protocol',
   vector_col   => 'embedding',
   fulltext_col => 'content',
   top_k        => 10,
-  alpha        => 0.7   -- 向量权重 0.7, 全文权重 0.3
+  alpha        => 0.7   -- vector weight 0.7, full-text weight 0.3
 );</code></pre>
                 </div>
-                <aside class="notes">alpha 参数控制向量与全文的权重。0.7 表示 70% 语义相似度 + 30% 关键词匹配。可根据场景调整。</aside>
+                <aside class="notes">Alpha controls vector vs full-text weighting. 0.7 = 70% semantic + 30% keyword. Tune per use case.</aside>
             </section>
 
             <!-- ══ Slide 8 · Comparison Table ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">对比</span></div>
-                <h2 class="slide-title">架构对比：为什么选择 OceanBase？</h2>
+                <div class="slide-label"><span class="pill">Comparison</span></div>
+                <h2 class="slide-title">Architecture Comparison: Why OceanBase?</h2>
                 <table style="margin-top:1rem;">
                     <thead>
                         <tr>
-                            <th style="width:22%;">特性</th>
-                            <th style="width:26%;">经典方案<br><small>SQL + ES + Vector DB</small></th>
-                            <th style="width:26%;">专用方案<br><small>SQL + Pinecone</small></th>
-                            <th style="width:26%;background:var(--ob-blue-10);">OceanBase<br><small>统一引擎</small></th>
+                            <th style="width:22%;">Feature</th>
+                            <th style="width:26%;">Classic Stack<br><small>SQL + ES + Vector DB</small></th>
+                            <th style="width:26%;">Specialist Stack<br><small>SQL + Pinecone</small></th>
+                            <th style="width:26%;background:var(--ob-blue-10);">OceanBase<br><small>Unified Engine</small></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>系统数量</strong></td>
-                            <td>3 套</td>
-                            <td>2 套</td>
-                            <td style="background:var(--ob-blue-10);"><strong>1 套</strong></td>
+                            <td><strong>Systems</strong></td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td style="background:var(--ob-blue-10);"><strong>1</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>数据一致性</strong></td>
-                            <td>弱 / 最终一致</td>
-                            <td>无事务保证</td>
-                            <td style="background:var(--ob-blue-10);"><strong>严格 ACID</strong></td>
+                            <td><strong>Data Consistency</strong></td>
+                            <td>Weak / Eventual</td>
+                            <td>No TX guarantee</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Strict ACID</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>搜索能力</strong></td>
-                            <td>全文强，向量弱</td>
-                            <td>向量强，全文弱</td>
-                            <td style="background:var(--ob-blue-10);"><strong>向量 + 全文 + 标量</strong></td>
+                            <td><strong>Search</strong></td>
+                            <td>Strong FT, weak vector</td>
+                            <td>Strong vector, weak FT</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Vector + FT + Scalar</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>开发体验</strong></td>
-                            <td>3x 运维 + 同步调试</td>
-                            <td>大量胶水代码</td>
-                            <td style="background:var(--ob-blue-10);"><strong>SQL 原生，零胶水</strong></td>
+                            <td><strong>Dev Experience</strong></td>
+                            <td>3x ops + sync debugging</td>
+                            <td>Heavy glue code</td>
+                            <td style="background:var(--ob-blue-10);"><strong>SQL-native, zero glue</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>MySQL 兼容</strong></td>
-                            <td>部分</td>
-                            <td>否</td>
-                            <td style="background:var(--ob-blue-10);"><strong>完全兼容</strong></td>
+                            <td><strong>MySQL Compat</strong></td>
+                            <td>Partial</td>
+                            <td>No</td>
+                            <td style="background:var(--ob-blue-10);"><strong>Full</strong></td>
                         </tr>
                     </tbody>
                 </table>
-                <aside class="notes">核心卖点：一个引擎替代三个系统，严格 ACID，SQL 原生混合搜索。</aside>
+                <aside class="notes">Key selling point: one engine replaces three systems, strict ACID, SQL-native hybrid search.</aside>
             </section>
 
             <!-- ══ Slide 9 · Quick Start ══ -->
             <section data-background-color="#fafafa">
-                <div class="slide-label"><span class="pill">快速开始</span></div>
-                <h2 class="slide-title">5 分钟上手</h2>
+                <div class="slide-label"><span class="pill">Quick Start</span></div>
+                <h2 class="slide-title">Up and Running in 5 Minutes</h2>
                 <div class="code-block" style="margin-top:1rem;">
-                    <div class="code-block-title">Shell — Docker 启动 OceanBase</div>
-                    <pre><code class="language-bash"># 启动 OceanBase CE (向量能力需 V4.3.3+)
+                    <div class="code-block-title">Shell — Docker Launch</div>
+                    <pre><code class="language-bash"># Start OceanBase CE (vector support requires V4.3.3+)
 docker run -d --name ob \
   -p 2881:2881 \
   -e OB_MEMORY_LIMIT=6G \
   oceanbase/oceanbase-ce:4.3.5-lts</code></pre>
                 </div>
                 <div class="code-block" style="margin-top:0.6rem;">
-                    <div class="code-block-title">Shell — 安装 & 运行</div>
+                    <div class="code-block-title">Shell — Install &amp; Run</div>
                     <pre><code class="language-bash">pip install langchain-oceanbase pyobvector langchain-openai
 
-# 或使用 seekdb 轻量版
+# Or use seekdb lightweight edition
 docker run -d --name seekdb \
   -p 2881:2881 -p 2886:2886 \
   -v ./seekdb:/var/lib/oceanbase \
   oceanbase/seekdb:latest</code></pre>
                 </div>
                 <div class="code-block" style="margin-top:0.6rem;">
-                    <div class="code-block-title">Python — 最小 RAG 示例</div>
+                    <div class="code-block-title">Python — Minimal RAG Example</div>
                     <pre><code class="language-python">from langchain_oceanbase import OceanBaseVectorStore
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 
@@ -381,25 +381,25 @@ vs = OceanBaseVectorStore(
     connection_args={"host":"127.0.0.1","port":"2881",
                      "user":"root@test","database":"test"},
 )
-vs.add_texts(["OceanBase 是分布式关系数据库"])
-print(vs.similarity_search("什么是 OceanBase?", k=1))</code></pre>
+vs.add_texts(["OceanBase is a distributed relational database"])
+print(vs.similarity_search("What is OceanBase?", k=1))</code></pre>
                 </div>
-                <aside class="notes">三步即可运行：1) Docker 启动 OB 2) pip install 3) Python 代码连接。seekdb 更轻量，1C2G 即可运行。</aside>
+                <aside class="notes">Three steps to run: 1) Docker launch OB 2) pip install 3) Python code. seekdb is lighter, runs on 1C2G.</aside>
             </section>
 
             <!-- ══ Slide 10 · Closing ══ -->
             <section data-background-color="#1a1aff">
                 <div class="slide-hero text-center" style="max-width:860px;">
                     <img src="../assets/logo.png" alt="OceanBase" class="closing-logo" style="height:36px; margin-bottom:1.5rem;">
-                    <h2 style="color:#fff;font-size:2rem;">一个引擎，全模态搜索</h2>
-                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">OceanBase × LangChain：从原型到生产，零胶水代码</p>
+                    <h2 style="color:#fff;font-size:2rem;">One Engine, Full-Modal Search</h2>
+                    <p style="color:rgba(255,255,255,0.85);margin-top:0.8rem;font-size:0.9rem;">OceanBase × LangChain: From prototype to production, zero glue code</p>
                     <div class="closing-links" style="margin-top:2rem;color:rgba(255,255,255,0.6);">
                         <a href="https://github.com/oceanbase/langchain-oceanbase" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/langchain-oceanbase</a><br>
                         <a href="https://github.com/oceanbase/pyobvector" target="_blank" style="color:rgba(255,255,255,0.8);">github.com/oceanbase/pyobvector</a><br>
                         <a href="https://en.oceanbase.com" target="_blank" style="color:rgba(255,255,255,0.8);">en.oceanbase.com</a>
                     </div>
                 </div>
-                <aside class="notes">总结：OceanBase 为 LangChain 生态提供统一向量存储，一个引擎替代多个系统。</aside>
+                <aside class="notes">Summary: OceanBase provides unified vector storage for the LangChain ecosystem — one engine replacing multiple systems.</aside>
             </section>
 
         </div>
